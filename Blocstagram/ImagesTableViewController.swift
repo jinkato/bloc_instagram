@@ -27,7 +27,6 @@ class ImagesTableViewController: UITableViewController {
     }
     
     
-    
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,6 +55,16 @@ class ImagesTableViewController: UITableViewController {
         let imageWidth = sizeOfImage!.width
         let imageHeight = sizeOfImage!.height
         return CGFloat((outerViewWidth/imageWidth) * imageHeight)
+    }
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            print("delete")
+            images.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
     }
 
 }
