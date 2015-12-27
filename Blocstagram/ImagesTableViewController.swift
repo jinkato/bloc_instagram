@@ -14,7 +14,7 @@ class ImagesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         for i in 1...10 {
             let imageName : String = "\(i).jpg";
             images.append(imageName)
@@ -31,7 +31,8 @@ class ImagesTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.images.count
+//        return self.images.count
+        return DataSource.sharedInstance().mediaItems.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -41,19 +42,24 @@ class ImagesTableViewController: UITableViewController {
         let h = cell.frame.height
         
         imageViewObject.frame = CGRect(x: 0, y: 0, width: w, height: h)
-        //imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleHeight
-        //imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleWidth
-        imageViewObject.image = UIImage(named:images[indexPath.row])
+        imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+        imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+  //      imageViewObject.image = UIImage(named:images[indexPath.row])
+        let mediaItem:Media = DataSource.sharedInstance().mediaItems[indexPath.row] as! Media
+        imageViewObject.image = mediaItem.image!
+        
         cell.addSubview(imageViewObject)
 
         return cell
     }
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let image = UIImage(named: images[indexPath.row])
-        let sizeOfImage = image?.size
+//        let image = UIImage(named: images[indexPath.row])
+        let mediaItem:Media = DataSource.sharedInstance().mediaItems[indexPath.row] as! Media
+        let image = mediaItem.image!
+        let sizeOfImage = image.size
         let outerViewWidth = self.view.frame.width
-        let imageWidth = sizeOfImage!.width
-        let imageHeight = sizeOfImage!.height
+        let imageWidth = sizeOfImage.width
+        let imageHeight = sizeOfImage.height
         return CGFloat((outerViewWidth/imageWidth) * imageHeight)
     }
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
