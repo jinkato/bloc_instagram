@@ -30,30 +30,22 @@ class ImagesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-//        return self.images.count
         return DataSource.sharedInstance().mediaItems.count
     }
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("imageCell", forIndexPath: indexPath) as UITableViewCell
         let imageViewObject :UIImageView = UIImageView()
         let w = cell.frame.width
         let h = cell.frame.height
-        
         imageViewObject.frame = CGRect(x: 0, y: 0, width: w, height: h)
         imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleHeight
         imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleWidth
-  //      imageViewObject.image = UIImage(named:images[indexPath.row])
         let mediaItem:Media = DataSource.sharedInstance().mediaItems[indexPath.row] as! Media
         imageViewObject.image = mediaItem.image!
-        
         cell.addSubview(imageViewObject)
-
         return cell
     }
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        let image = UIImage(named: images[indexPath.row])
         let mediaItem:Media = DataSource.sharedInstance().mediaItems[indexPath.row] as! Media
         let image = mediaItem.image!
         let sizeOfImage = image.size
@@ -67,9 +59,10 @@ class ImagesTableViewController: UITableViewController {
     }
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            print("delete")
-            images.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            print(indexPath)
+            
+//            images.removeAtIndex(indexPath.row)
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
 
