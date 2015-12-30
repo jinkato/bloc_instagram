@@ -10,7 +10,7 @@ import UIKit
 
 class ImagesTableViewController: UITableViewController {
 
-    var items = DataSource.sharedInstance().mediaItems
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class ImagesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return DataSource.sharedInstance().mediaItems.count
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("imageCell", forIndexPath: indexPath) as UITableViewCell
@@ -35,13 +35,13 @@ class ImagesTableViewController: UITableViewController {
         imageViewObject.frame = CGRect(x: 0, y: 0, width: w, height: h)
         imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleHeight
         imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleWidth
-        let mediaItem:Media = items[indexPath.row] as! Media
+        let mediaItem:Media = DataSource.sharedInstance().mediaItems[indexPath.row] as! Media
         imageViewObject.image = mediaItem.image!
         cell.addSubview(imageViewObject)
         return cell
     }
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let mediaItem:Media = items[indexPath.row] as! Media
+        let mediaItem:Media = DataSource.sharedInstance().mediaItems[indexPath.row] as! Media
         let image = mediaItem.image!
         let sizeOfImage = image.size
         let outerViewWidth = self.view.frame.width
@@ -54,8 +54,8 @@ class ImagesTableViewController: UITableViewController {
     }
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            items.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+//            DataSource.sharedInstance().mediaItems.removeAtIndex(indexPath.row)
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
     }
 
