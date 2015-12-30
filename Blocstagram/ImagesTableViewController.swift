@@ -10,16 +10,10 @@ import UIKit
 
 class ImagesTableViewController: UITableViewController {
 
-    var images : [String] = []
     var items = DataSource.sharedInstance().mediaItems
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        for i in 1...10 {
-            let imageName : String = "\(i).jpg";
-            images.append(imageName)
-        }
     }
 
     override func didReceiveMemoryWarning() {
