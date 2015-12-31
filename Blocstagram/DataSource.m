@@ -13,7 +13,7 @@
 
 @interface DataSource ()
 
-@property (nonatomic, strong) NSArray *mediaItems;
+@property (nonatomic, strong) NSMutableArray *mediaItems;
 
 @end
 
@@ -84,6 +84,7 @@
 }
 
 
+#pragma mark - Random
 
 - (User *) randomUser {
     User *user = [[User alloc] init];
@@ -134,6 +135,8 @@
     return [NSString stringWithString:s];
 }
 
-
+//- (void)removeItemAtIndex:(uint)index {
+//    [self.mediaItems removeObjectAtIndex:index];
+//}
 
 @end

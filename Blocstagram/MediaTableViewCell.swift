@@ -10,17 +10,19 @@ import UIKit
 
 class MediaTableViewCell: UITableViewCell {
 
-//    var mediaItem : Media;
+//    var mediaImageView: UIImageView
+//    var usernameAndCaptionLabel: UILabel
+//    var commentLabel:UILabel
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        // Initialization code
+//    }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+//    override func setSelected(selected: Bool, animated: Bool) {
+//        super.setSelected(selected, animated: animated)
+//
+//        // Configure the view for the selected state
+//    }
 
 }
