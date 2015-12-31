@@ -135,8 +135,8 @@
     return [NSString stringWithString:s];
 }
 
-//- (void)removeItemAtIndex:(uint)index {
-//    [self.mediaItems removeObjectAtIndex:index];
-//}
+- (void)removeItemAtIndex:(uint)index {
+    [self.mediaItems removeObjectAtIndex:index];
+}
 
 @end
