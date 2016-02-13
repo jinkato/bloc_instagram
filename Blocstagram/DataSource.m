@@ -56,7 +56,7 @@
 - (void) addRandomData {
     NSMutableArray *randomMediaItems = [NSMutableArray array];
     
-    for (int i = 1; i <= 10; i++) {
+    for (int i = 1; i <= 5; i++) {
         NSString *imageName = [NSString stringWithFormat:@"%d.jpg", i];
         UIImage *image = [UIImage imageNamed:imageName];
         
@@ -93,7 +93,7 @@
     NSString *firstName = [self randomStringOfLength:arc4random_uniform(7) + 2];
     NSString *lastName = [self randomStringOfLength:arc4random_uniform(12) + 2];
     user.fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-    
+//    NSLog(firstName);
     return user;
 }
 
