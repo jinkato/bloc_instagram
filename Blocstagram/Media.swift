@@ -7,8 +7,6 @@
 //
 
 import UIKit
-//import "User.swif"
-
 
 class Media: NSObject {
     var idNumber : NSString = ""
@@ -16,5 +14,5 @@ class Media: NSObject {
     var mediaURL : NSURL? = nil
     var image : UIImage? = nil
     var caption : NSString = ""
-    var comments : NSArray = []
+    var comments : [Comment] = []
 }

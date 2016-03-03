@@ -10,11 +10,10 @@ import UIKit
 
 class ImagesTableViewController: UITableViewController {
 
-    var items = DataSource.sharedInstance().mediaItems
+    var items = RandomData.sharedInstance.mediaItems
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         NSNotificationCenter.defaultCenter().addObserverForName("setTableBackgroundColor", object: nil, queue: nil) { (notification) -> Void in
             self.setBackgroundColor()
         }
@@ -33,42 +32,40 @@ class ImagesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        print("numberOfRowsInSection = ", items.count)
         return items.count
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-//        print( items[indexPath.row] )
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("imageCell2", forIndexPath: indexPath) as! MediaTableViewCell
+        let convertedMedia = items[indexPath.row] 
+        cell.usernameAndCaptionLabel.text = (convertedMedia.user?.fullName as! String)
+        cell.commentLabel.text = convertedMedia.comments[0].text as String
         
-        cell.mediaItem.caption = "how is this"
-        cell.mediaItem = items[indexPath.row] as! Media
+        let imageName = String(indexPath.row + 1) + ".jpg"
+        let image = UIImage(named: imageName)
+        cell.mediaImageView = UIImageView(image: image)
+        let w = cell.frame.width
+        let h = cell.frame.height - 100
+        cell.mediaImageView.frame = CGRect(x: 0, y: 0, width: w, height: h)
+        cell.mediaImageView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        cell.addSubview(cell.mediaImageView)
+        cell.usernameAndCaptionLabel.frame = CGRect(x: 0, y: h, width: 100, height: 50)
+        cell.commentLabel.frame = CGRect(x: 0, y: h, width: 100, height: 100)
+
         
-        var test = cell.mediaItem.caption
-        print("from table ", test)
-        
-//        print(test)
-//        let imageViewObject :UIImageView = UIImageView()
-//        let w = cell.frame.width
-//        let h = cell.frame.height
-//        imageViewObject.frame = CGRect(x: 0, y: 0, width: w, height: h)
-//        imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleHeight
-//        imageViewObject.autoresizingMask = UIViewAutoresizing.FlexibleWidth
-//        let mediaItem:Media = items[indexPath.row] as! Media
-//        imageViewObject.image = mediaItem.image!
-//        cell.addSubview(imageViewObject)
         return cell
     }
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let mediaItem:Media = items[indexPath.row] as! Media
+        let mediaItem = items[indexPath.row]
         let image = mediaItem.image!
         let sizeOfImage = image.size
         let outerViewWidth = self.view.frame.width
         let imageWidth = sizeOfImage.width
         let imageHeight = sizeOfImage.height
-        return CGFloat((outerViewWidth/imageWidth) * imageHeight)
+        return CGFloat(((outerViewWidth/imageWidth) * imageHeight ) + 100)
     }
+    
+    // MARK: - Table Edit
+    
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }

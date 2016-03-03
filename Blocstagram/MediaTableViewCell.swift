@@ -10,7 +10,7 @@ import UIKit
 
 class MediaTableViewCell: UITableViewCell {
 
-    var mediaItem : Media;
+//    var mediaItem : Media;
     var mediaImageView: UIImageView
     var usernameAndCaptionLabel: UILabel
     var commentLabel: UILabel
@@ -24,31 +24,31 @@ class MediaTableViewCell: UITableViewCell {
     var mutableParagraphStyle: NSMutableParagraphStyle
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        print("regular init")
         // Initialization code
-        mediaItem = Media()
         self.mediaImageView = UIImageView()
         self.usernameAndCaptionLabel = UILabel()
         self.commentLabel = UILabel()
         self.mutableParagraphStyle = NSMutableParagraphStyle()
-        // Super Init
+        //Super Init
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // Text Style
-        self.usernameAndCaptionLabel.numberOfLines = 0
-        self.usernameAndCaptionLabel.backgroundColor = usernameLabelGray
-        self.commentLabel.numberOfLines = 0
-        self.backgroundColor = usernameLabelGray
-        // Add Subview
-        self.contentView.addSubview(self.mediaImageView)
-        self.contentView.addSubview(self.usernameAndCaptionLabel)
-        self.contentView.addSubview(self.commentLabel)
-        // Text Style
-        self.mutableParagraphStyle.headIndent = 20.0
-        self.mutableParagraphStyle.firstLineHeadIndent = 20.0
-        self.mutableParagraphStyle.tailIndent = -20.0
-        self.mutableParagraphStyle.paragraphSpacingBefore = 5
-        paragraphStyle = mutableParagraphStyle
-        
-        usernameAndCaptionString()
+//        self.usernameAndCaptionLabel.numberOfLines = 0
+//        self.usernameAndCaptionLabel.backgroundColor = usernameLabelGray
+//        self.commentLabel.numberOfLines = 0
+//        self.backgroundColor = usernameLabelGray
+//        // Add Subview
+//        self.contentView.addSubview(self.mediaImageView)
+//        self.contentView.addSubview(self.usernameAndCaptionLabel)
+//        self.contentView.addSubview(self.commentLabel)
+//        // Text Style
+//        self.mutableParagraphStyle.headIndent = 20.0
+//        self.mutableParagraphStyle.firstLineHeadIndent = 20.0
+//        self.mutableParagraphStyle.tailIndent = -20.0
+//        self.mutableParagraphStyle.paragraphSpacingBefore = 5
+//        paragraphStyle = mutableParagraphStyle
+//        
+//        usernameAndCaptionString()
     }
     
     func usernameAndCaptionString(){
@@ -69,26 +69,19 @@ class MediaTableViewCell: UITableViewCell {
 
     required init?(coder aDecoder: NSCoder) {
        // fatalError("init(coder:) has not been implemented")
-        mediaItem = Media()
         self.mediaImageView = UIImageView()
-        self.usernameAndCaptionLabel = UILabel()
-        self.commentLabel = UILabel()
+        self.usernameAndCaptionLabel = UILabel(frame: CGRectMake(0, 50, 200, 21))
+        self.commentLabel = UILabel(frame: CGRectMake(0, 100, 200, 21))
         self.mutableParagraphStyle = NSMutableParagraphStyle()
         super.init(coder: aDecoder)
         // Text Style
-        self.usernameAndCaptionLabel.numberOfLines = 0
-        self.usernameAndCaptionLabel.backgroundColor = usernameLabelGray
-        self.commentLabel.numberOfLines = 0
-        self.backgroundColor = usernameLabelGray
-        // Test
-        let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
-        label.text = self.mediaItem.caption as String
-        print("from cell ", self.mediaItem.caption)
-        print("from cell ", mediaItem.caption)
-        self.addSubview(label)
+//        self.usernameAndCaptionLabel.numberOfLines = 0
+//        self.usernameAndCaptionLabel.backgroundColor = usernameLabelGray
+//        self.commentLabel.numberOfLines = 0
+//        self.backgroundColor = usernameLabelGray
         // Add Subview
         self.addSubview(self.usernameAndCaptionLabel)
-        self.contentView.addSubview(self.mediaImageView)
+//        self.addSubview(self.mediaImageView)
 //        self.contentView.addSubview(self.usernameAndCaptionLabel)
         self.contentView.addSubview(self.commentLabel)
         // Text Style
