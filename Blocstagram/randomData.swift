@@ -5,6 +5,7 @@
 //  Created by Jin Kato on 2/21/16.
 //  Copyright © 2016 Jin Kato. All rights reserved.
 //
+// https://github.com/hpique/SwiftSingleton
 
 import UIKit
 
@@ -59,7 +60,7 @@ func randomSentance() -> String{
     var mySentance = ""
     let sentanceLength:Int = randomNumber(8...25)
     for _ in 1...sentanceLength {
-        mySentance += randomString(5...11)
+        mySentance += " \(randomString(5...11))"
     }
     return mySentance
 }
