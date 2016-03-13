@@ -54,6 +54,7 @@ class ImagesTableViewController: UITableViewController {
         let usernameCaptionAttribute = NSMutableAttributedString(string: userCaptionString, attributes: [NSFontAttributeName: lightFont])
         usernameCaptionAttribute.addAttribute(NSFontAttributeName, value: boldFont, range: NSRange(location:0,length:fullNameCount))
         usernameCaptionAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:0,length:fullNameCount))
+        usernameCaptionAttribute.addAttribute(NSKernAttributeName, value: 2, range: NSRange(location:0,length:fullNameCount))
         cell.usernameAndCaptionLabel.text = userCaptionString
         cell.usernameAndCaptionLabel.attributedText = usernameCaptionAttribute
         cell.usernameAndCaptionLabel.frame = CGRect(x: 0, y: adjustedImageHeight, width: cellWidth, height: 20)
@@ -79,8 +80,19 @@ class ImagesTableViewController: UITableViewController {
             let comment = convertedMedia.comments[(i-1)].text as String
             let usernameCount = username.characters.count
             let commentCount = comment.characters.count
-            commentAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:characterCount,length:usernameCount))
+            
+            
+            if(i == 1){
+                commentAttribute.addAttribute(NSForegroundColorAttributeName, value: UIColor.orangeColor(), range: NSRange(location:characterCount,length:usernameCount))
+            }else{
+                commentAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:characterCount,length:usernameCount))
+            }
             commentAttribute.addAttribute(NSFontAttributeName, value: boldFont, range: NSRange(location:characterCount,length:usernameCount))
+            if i % 2 == 0 {
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = NSTextAlignment.Right
+                commentAttribute.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location:characterCount,length:usernameCount))
+            }
             characterCount += (usernameCount + commentCount + 3)
         }
         cell.commentLabel.attributedText = commentAttribute
