@@ -60,7 +60,7 @@ func randomSentance() -> String{
     var mySentance = ""
     let sentanceLength:Int = randomNumber(8...25)
     for _ in 1...sentanceLength {
-        mySentance += " \(randomString(5...11))"
+        mySentance += "\(randomString(5...11)) "
     }
     return mySentance
 }

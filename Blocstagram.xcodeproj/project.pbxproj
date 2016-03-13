@@ -142,10 +142,10 @@
 				21F451E71C0BB69600B5C911 /* User.swift */,
 				21F451E91C0BB78500B5C911 /* Media.swift */,
 				215E68EA1C225FC300803028 /* Comment.swift */,
+				21352A671C7A5647001ED3C0 /* randomData.swift */,
 				21F451EF1C0BE99700B5C911 /* DataSource.h */,
 				21F451F01C0BE99700B5C911 /* DataSource.m */,
 				21F451EE1C0BE99700B5C911 /* Blocstagram-Bridging-Header.h */,
-				21352A671C7A5647001ED3C0 /* randomData.swift */,
 			);
 			path = Blocstagram;
 			sourceTree = "<group>";

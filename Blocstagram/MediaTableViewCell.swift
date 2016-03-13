@@ -33,7 +33,6 @@ class MediaTableViewCell: UITableViewCell {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        
         print("custom cell")
        // fatalError("init(coder:) has not been implemented")
         self.mediaImageView = UIImageView()
@@ -43,6 +42,9 @@ class MediaTableViewCell: UITableViewCell {
         self.usernameAndCaptionLabel.numberOfLines = 0
         self.usernameAndCaptionLabel.lineBreakMode = .ByCharWrapping
         self.commentLabel = UILabel()
+        self.commentLabel.numberOfLines = 0
+        self.commentLabel.lineBreakMode = .ByCharWrapping
+        self.commentLabel.backgroundColor = UIColor.redColor()
 //        self.commentLabel.backgroundColor = commentLabelGray
         self.mutableParagraphStyle = NSMutableParagraphStyle()
 //        self.mutableParagraphStyle.headIndent = 20.0
@@ -58,9 +60,7 @@ class MediaTableViewCell: UITableViewCell {
         self.addSubview(self.commentLabel)
 //        self.contentView.addSubview(self.commentLabel)
 //        self.addSubview(self.mediaImageView)
-        
-        var items = RandomData.sharedInstance.mediaItems
-//        print(items[0].comments.count)
+        self.addSubview(self.mediaImageView)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

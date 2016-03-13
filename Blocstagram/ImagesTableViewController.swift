@@ -18,25 +18,18 @@ class ImagesTableViewController: UITableViewController {
     let commentLabelGray: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
     let linkColor: UIColor = UIColor(red: 0.345, green: 0.314, blue: 0.427, alpha: 1)
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserverForName("setTableBackgroundColor", object: nil, queue: nil) { (notification) -> Void in
             self.setBackgroundColor()
         }
-//        tableView.estimatedRowHeight = 44.0
-//        tableView.rowHeight = UITableViewAutomaticDimension
     }
-
     func setBackgroundColor() {
         self.tableView.backgroundColor = UIColor.grayColor();
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
     
     // MARK: - Table view data source
 
@@ -54,6 +47,8 @@ class ImagesTableViewController: UITableViewController {
         cell.mediaImageView = UIImageView(image: convertedMedia.image)
         cell.mediaImageView.frame = CGRect(x: 0, y: 0, width: cellWidth, height: adjustedImageHeight)
         cell.mediaImageView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        cell.mediaImageView.alpha = 0.5
+        cell.mediaImageView.backgroundColor = UIColor.purpleColor()
         cell.addSubview(cell.mediaImageView)
         //Username and caption
         let thisFullName = convertedMedia.user?.fullName as! String
@@ -70,34 +65,15 @@ class ImagesTableViewController: UITableViewController {
         //comment
         let usernameAndCaptionLabelHeight = cell.usernameAndCaptionLabel.frame.height
         let usernameAndImage = usernameAndCaptionLabelHeight + adjustedImageHeight
-        let commentCount = convertedMedia.comments.count
-//        var commentHightTotal:CGFloat = 0
-        
-        for i in 1...commentCount {
-//            let commentLabel = UILabel()
-//            self.view.addSubview(commentLabel)
-            let commentString = convertedMedia.comments[(i-1)].text as String
-//            commentLabel.text = commentString
-//            let commentAttribute = NSMutableAttributedString(string: commentString, attributes: [NSFontAttributeName: lightFont])
-//            commentLabel.attributedText = commentAttribute
-//            commentLabel.backgroundColor = UIColor(red:1.0, green:0.0, blue:0.0, alpha:0.5)
-//            commentLabel.frame = CGRect(x: 0, y: 0, width: cellWidth, height: 20)
-//            commentLabel.numberOfLines = 0
-//            commentLabel.lineBreakMode = .ByCharWrapping
-//            commentLabel.sizeToFit()
-//            if i != 1{
-//                let commentHeight = heightForView(commentString, font: lightFont, width: cellWidth)
-//                commentHightTotal += commentHeight
-//                print(commentHeight)
-//            }
-            // \n
-//            print(commentString)
-//            let thisY = CGFloat(usernameAndImage + commentHightTotal)
-//            commentLabel.frame.origin.y = thisY
-        }
-        //return
+        let commentString = combineCommentText(indexPath)
+        cell.commentLabel.text = commentString
+        let commentAttribute = NSMutableAttributedString(string: commentString, attributes: [NSFontAttributeName: lightFont])
+        cell.commentLabel.attributedText = commentAttribute
+        cell.commentLabel.frame = CGRect(x: 0, y: usernameAndImage, width: cellWidth, height: 20)
+        cell.commentLabel.sizeToFit()
         return cell
     }
+    
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         print("height for row at index path")
         let mediaItem = items[indexPath.row]
@@ -114,8 +90,10 @@ class ImagesTableViewController: UITableViewController {
         let baseString: String = "\(thisFullName) \(thisCaption)"
         let tableWidth:CGFloat = tableView.frame.width
         let usernameHeight = heightForView(baseString, font: lightFont, width: tableWidth)
-        
-        return CGFloat( adjustedImageHeight + usernameHeight + 300)
+        // comments
+        let commentString = combineCommentText(indexPath)
+        let commentHeight = heightForView(commentString, font: lightFont, width: tableWidth)
+        return CGFloat( adjustedImageHeight + usernameHeight + commentHeight)
     }
     
     // MARK: - Table Edit
@@ -150,7 +128,19 @@ class ImagesTableViewController: UITableViewController {
         let adjustedImageHeight = imageRatio * imageHeight
         return adjustedImageHeight
     }
-    
+    func combineCommentText(indexPath:NSIndexPath) -> String{
+        let convertedMedia = items[indexPath.row]
+        let commentCount = convertedMedia.comments.count
+        var commentString = ""
+        for i in 1...commentCount {
+            if i == 1 {
+                commentString = convertedMedia.comments[(i-1)].text as String
+            }else{
+                commentString = "\(convertedMedia.comments[(i-1)].text as String)\n\n\(commentString)"
+            }
+        }
+        return commentString
+    }
     
 }
 
