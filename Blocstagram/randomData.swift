@@ -21,7 +21,6 @@ class RandomData: NSObject {
 
 func addRandomData() -> Array<Media>{
     var randomMediaItems:[Media] = []
-
     for i in 1...5 {
         let imageName = "\(i).jpg"
         let image = UIImage(named: imageName)

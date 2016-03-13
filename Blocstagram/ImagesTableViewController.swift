@@ -14,8 +14,6 @@ class ImagesTableViewController: UITableViewController {
     var items = RandomData.sharedInstance.mediaItems
     let lightFont: UIFont = UIFont(name: "HelveticaNeue-Thin", size: 11)!
     let boldFont: UIFont = UIFont(name: "HelveticaNeue-Bold", size: 11)!
-    let usernameLabelGray: UIColor = UIColor(red: 0.933, green: 0.933, blue: 0.933, alpha: 1)
-    let commentLabelGray: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
     let linkColor: UIColor = UIColor(red: 0.345, green: 0.314, blue: 0.427, alpha: 1)
     
     override func viewDidLoad() {
@@ -34,23 +32,21 @@ class ImagesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         return items.count
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print("cell for row at index")
-        // Var Table
+        // val ------------------------------------------------------------------------------
         let cell = tableView.dequeueReusableCellWithIdentifier("imageCell2", forIndexPath: indexPath) as! MediaTableViewCell
         let convertedMedia = items[indexPath.row]
         let cellWidth = cell.frame.width
-        //image
+        //image ------------------------------------------------------------------------------
         let adjustedImageHeight = findAdjustedHight( convertedMedia.image! )
-        cell.mediaImageView = UIImageView(image: convertedMedia.image)
+        cell.mediaImageView.image = convertedMedia.image
         cell.mediaImageView.frame = CGRect(x: 0, y: 0, width: cellWidth, height: adjustedImageHeight)
         cell.mediaImageView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
-        cell.mediaImageView.alpha = 0.5
-        cell.mediaImageView.backgroundColor = UIColor.purpleColor()
-        cell.addSubview(cell.mediaImageView)
-        //Username and caption
+//        cell.addSubview(cell.mediaImageView)
+        //Username and caption ------------------------------------------------------------------------------
         let thisFullName = convertedMedia.user?.fullName as! String
         let thisCaption = convertedMedia.caption
         let fullNameCount:Int = thisFullName.characters.count
@@ -62,20 +58,39 @@ class ImagesTableViewController: UITableViewController {
         cell.usernameAndCaptionLabel.attributedText = usernameCaptionAttribute
         cell.usernameAndCaptionLabel.frame = CGRect(x: 0, y: adjustedImageHeight, width: cellWidth, height: 20)
         cell.usernameAndCaptionLabel.sizeToFit()
-        //comment
+        //comment ------------------------------------------------------------------------------
         let usernameAndCaptionLabelHeight = cell.usernameAndCaptionLabel.frame.height
         let usernameAndImage = usernameAndCaptionLabelHeight + adjustedImageHeight
-        let commentString = combineCommentText(indexPath)
+        let commentCount = convertedMedia.comments.count
+        var commentString = ""
+        for i in 1...commentCount {
+            let username = convertedMedia.comments[(i-1)].from!.fullName as String
+            if i == 1 {
+                commentString = "\(username) \(convertedMedia.comments[(i-1)].text as String)"
+            }else{
+                commentString = "\(commentString)\n\n\(username) \(convertedMedia.comments[(i-1)].text as String)"
+            }
+        }
         cell.commentLabel.text = commentString
         let commentAttribute = NSMutableAttributedString(string: commentString, attributes: [NSFontAttributeName: lightFont])
+        var characterCount = 0
+        for i in 1...commentCount {
+            let username = convertedMedia.comments[(i-1)].from!.fullName as String
+            let comment = convertedMedia.comments[(i-1)].text as String
+            let usernameCount = username.characters.count
+            let commentCount = comment.characters.count
+            commentAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:characterCount,length:usernameCount))
+            commentAttribute.addAttribute(NSFontAttributeName, value: boldFont, range: NSRange(location:characterCount,length:usernameCount))
+            characterCount += (usernameCount + commentCount + 3)
+        }
         cell.commentLabel.attributedText = commentAttribute
         cell.commentLabel.frame = CGRect(x: 0, y: usernameAndImage, width: cellWidth, height: 20)
         cell.commentLabel.sizeToFit()
+        //return ------------------------------------------------------------------------------
         return cell
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        print("height for row at index path")
         let mediaItem = items[indexPath.row]
         let image = mediaItem.image!
         let sizeOfImage = image.size
@@ -133,10 +148,11 @@ class ImagesTableViewController: UITableViewController {
         let commentCount = convertedMedia.comments.count
         var commentString = ""
         for i in 1...commentCount {
+            let username = convertedMedia.comments[(i-1)].from!.fullName
             if i == 1 {
-                commentString = convertedMedia.comments[(i-1)].text as String
+                commentString = "\(username)  \(convertedMedia.comments[(i-1)].text as String)"
             }else{
-                commentString = "\(convertedMedia.comments[(i-1)].text as String)\n\n\(commentString)"
+                commentString = "\(username)  \(convertedMedia.comments[(i-1)].text as String)\n\n\(commentString)"
             }
         }
         return commentString
