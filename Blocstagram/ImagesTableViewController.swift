@@ -15,6 +15,8 @@ class ImagesTableViewController: UITableViewController {
     let lightFont: UIFont = UIFont(name: "HelveticaNeue-Thin", size: 11)!
     let boldFont: UIFont = UIFont(name: "HelveticaNeue-Bold", size: 11)!
     let linkColor: UIColor = UIColor(red: 0.345, green: 0.314, blue: 0.427, alpha: 1)
+    let container = UILayoutGuide()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,16 +38,15 @@ class ImagesTableViewController: UITableViewController {
         return items.count
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // val ------------------------------------------------------------------------------
         let cell = tableView.dequeueReusableCellWithIdentifier("imageCell2", forIndexPath: indexPath) as! MediaTableViewCell
         let convertedMedia = items[indexPath.row]
         let cellWidth = cell.frame.width
+        view.addLayoutGuide(container)
         //image ------------------------------------------------------------------------------
-        let adjustedImageHeight = findAdjustedHight( convertedMedia.image! )
+        let adjustedImageHeight:CGFloat = findAdjustedHight( convertedMedia.image! )
         cell.mediaImageView.image = convertedMedia.image
-        cell.mediaImageView.frame = CGRect(x: 0, y: 0, width: cellWidth, height: adjustedImageHeight)
+        cell.mediaImageView.heightAnchor.constraintEqualToConstant(adjustedImageHeight).active = true
         cell.mediaImageView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
-//        cell.addSubview(cell.mediaImageView)
         //Username and caption ------------------------------------------------------------------------------
         let thisFullName = convertedMedia.user?.fullName as! String
         let thisCaption = convertedMedia.caption
@@ -55,13 +56,12 @@ class ImagesTableViewController: UITableViewController {
         usernameCaptionAttribute.addAttribute(NSFontAttributeName, value: boldFont, range: NSRange(location:0,length:fullNameCount))
         usernameCaptionAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:0,length:fullNameCount))
         usernameCaptionAttribute.addAttribute(NSKernAttributeName, value: 2, range: NSRange(location:0,length:fullNameCount))
+        cell.usernameAndCaptionLabel.translatesAutoresizingMaskIntoConstraints = false
         cell.usernameAndCaptionLabel.text = userCaptionString
         cell.usernameAndCaptionLabel.attributedText = usernameCaptionAttribute
-        cell.usernameAndCaptionLabel.frame = CGRect(x: 0, y: adjustedImageHeight, width: cellWidth, height: 20)
-        cell.usernameAndCaptionLabel.sizeToFit()
+        cell.usernameAndCaptionLabel.frame.size.height = 20
+        cell.usernameAndCaptionLabel.frame.size.width = cellWidth
         //comment ------------------------------------------------------------------------------
-        let usernameAndCaptionLabelHeight = cell.usernameAndCaptionLabel.frame.height
-        let usernameAndImage = usernameAndCaptionLabelHeight + adjustedImageHeight
         let commentCount = convertedMedia.comments.count
         var commentString = ""
         for i in 1...commentCount {
@@ -73,6 +73,7 @@ class ImagesTableViewController: UITableViewController {
             }
         }
         cell.commentLabel.text = commentString
+        cell.commentLabel.translatesAutoresizingMaskIntoConstraints = false
         let commentAttribute = NSMutableAttributedString(string: commentString, attributes: [NSFontAttributeName: lightFont])
         var characterCount = 0
         for i in 1...commentCount {
@@ -80,23 +81,13 @@ class ImagesTableViewController: UITableViewController {
             let comment = convertedMedia.comments[(i-1)].text as String
             let usernameCount = username.characters.count
             let commentCount = comment.characters.count
-            
-            
-            if(i == 1){
-                commentAttribute.addAttribute(NSForegroundColorAttributeName, value: UIColor.orangeColor(), range: NSRange(location:characterCount,length:usernameCount))
-            }else{
-                commentAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:characterCount,length:usernameCount))
-            }
+            commentAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:characterCount,length:usernameCount))
             commentAttribute.addAttribute(NSFontAttributeName, value: boldFont, range: NSRange(location:characterCount,length:usernameCount))
-            if i % 2 == 0 {
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.alignment = NSTextAlignment.Right
-                commentAttribute.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location:characterCount,length:usernameCount))
-            }
             characterCount += (usernameCount + commentCount + 3)
         }
         cell.commentLabel.attributedText = commentAttribute
-        cell.commentLabel.frame = CGRect(x: 0, y: usernameAndImage, width: cellWidth, height: 20)
+        cell.commentLabel.frame.size.height = 20
+        cell.commentLabel.frame.size.width = cellWidth
         cell.commentLabel.sizeToFit()
         //return ------------------------------------------------------------------------------
         return cell

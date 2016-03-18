@@ -15,8 +15,8 @@ class MediaTableViewCell: UITableViewCell {
     let usernameLabelGray: UIColor = UIColor(red: 0.933, green: 0.933, blue: 0.933, alpha: 1)
     let commentLabelGray: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
     
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        print("regular init not called")
         // Initialization code
         self.mediaImageView = UIImageView()
         self.usernameAndCaptionLabel = UILabel()
@@ -26,14 +26,19 @@ class MediaTableViewCell: UITableViewCell {
     }
 
     required init?(coder aDecoder: NSCoder) {
-       // fatalError("init(coder:) has not been implemented")
+        // fatalError("init(coder:) has not been implemented")
+        //image
         self.mediaImageView = UIImageView()
-        //username and caption
+        self.mediaImageView.translatesAutoresizingMaskIntoConstraints = false
+        //username
         self.usernameAndCaptionLabel = UILabel()
+        self.usernameAndCaptionLabel.translatesAutoresizingMaskIntoConstraints = false
         self.usernameAndCaptionLabel.backgroundColor = usernameLabelGray
         self.usernameAndCaptionLabel.numberOfLines = 0
         self.usernameAndCaptionLabel.lineBreakMode = .ByCharWrapping
+        //comment
         self.commentLabel = UILabel()
+        self.commentLabel.translatesAutoresizingMaskIntoConstraints = false
         self.commentLabel.numberOfLines = 0
         self.commentLabel.lineBreakMode = .ByCharWrapping
         self.commentLabel.backgroundColor = commentLabelGray
@@ -43,6 +48,23 @@ class MediaTableViewCell: UITableViewCell {
         self.addSubview(self.usernameAndCaptionLabel)
         self.addSubview(self.commentLabel)
         self.addSubview(self.mediaImageView)
+        
+        let container = UILayoutGuide()
+        self.addLayoutGuide(container)
+        let margins = self.layoutMarginsGuide
+        container.topAnchor.constraintEqualToAnchor(margins.topAnchor, constant: 0.0).active = true
+        container.leadingAnchor.constraintEqualToAnchor(margins.leadingAnchor, constant: 0.0).active = true
+        container.trailingAnchor.constraintEqualToAnchor(margins.trailingAnchor, constant: 0.0).active = true
+        
+        self.mediaImageView.topAnchor.constraintEqualToAnchor(container.topAnchor, constant: 0.0).active = true
+        self.mediaImageView.leadingAnchor.constraintEqualToAnchor(container.leadingAnchor, constant: 0).active = true
+        self.mediaImageView.trailingAnchor.constraintEqualToAnchor(container.trailingAnchor, constant: 0).active = true
+        self.usernameAndCaptionLabel.topAnchor.constraintEqualToAnchor(self.mediaImageView.bottomAnchor, constant: 0.0).active = true
+        self.usernameAndCaptionLabel.leadingAnchor.constraintEqualToAnchor(container.leadingAnchor, constant: 0.0).active = true
+        self.usernameAndCaptionLabel.trailingAnchor.constraintEqualToAnchor(container.trailingAnchor, constant: 0.0).active = true
+        self.commentLabel.topAnchor.constraintEqualToAnchor(self.usernameAndCaptionLabel.bottomAnchor, constant: 0.0).active = true
+        self.commentLabel.leadingAnchor.constraintEqualToAnchor(container.leadingAnchor, constant: 0.0).active = true
+        self.commentLabel.trailingAnchor.constraintEqualToAnchor(container.trailingAnchor, constant: 0.0).active = true
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
