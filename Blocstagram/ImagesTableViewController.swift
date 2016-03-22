@@ -45,7 +45,9 @@ class ImagesTableViewController: UITableViewController {
         //image ------------------------------------------------------------------------------
         let adjustedImageHeight:CGFloat = findAdjustedHight( convertedMedia.image! )
         cell.mediaImageView.image = convertedMedia.image
-        cell.mediaImageView.heightAnchor.constraintEqualToConstant(adjustedImageHeight).active = true
+        cell.heightConstraint.constant = adjustedImageHeight
+
+        
         cell.mediaImageView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
         //Username and caption ------------------------------------------------------------------------------
         let thisFullName = convertedMedia.user?.fullName as! String
@@ -90,6 +92,8 @@ class ImagesTableViewController: UITableViewController {
         cell.commentLabel.frame.size.width = cellWidth
         cell.commentLabel.sizeToFit()
         //return ------------------------------------------------------------------------------
+        cell.cellIndex = UInt(indexPath.row)
+
         return cell
     }
     
