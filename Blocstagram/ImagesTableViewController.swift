@@ -17,7 +17,6 @@ class ImagesTableViewController: UITableViewController {
     let linkColor: UIColor = UIColor(red: 0.345, green: 0.314, blue: 0.427, alpha: 1)
     let container = UILayoutGuide()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserverForName("setTableBackgroundColor", object: nil, queue: nil) { (notification) -> Void in
@@ -43,12 +42,8 @@ class ImagesTableViewController: UITableViewController {
         let cellWidth = cell.frame.width
         view.addLayoutGuide(container)
         //image ------------------------------------------------------------------------------
-        let adjustedImageHeight:CGFloat = findAdjustedHight( convertedMedia.image! )
         cell.mediaImageView.image = convertedMedia.image
-        cell.heightConstraint.constant = adjustedImageHeight
-
-        
-        cell.mediaImageView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        cell.heightConstraint.constant = findAdjustedHight( convertedMedia.image! )
         //Username and caption ------------------------------------------------------------------------------
         let thisFullName = convertedMedia.user?.fullName as! String
         let thisCaption = convertedMedia.caption
@@ -92,8 +87,6 @@ class ImagesTableViewController: UITableViewController {
         cell.commentLabel.frame.size.width = cellWidth
         cell.commentLabel.sizeToFit()
         //return ------------------------------------------------------------------------------
-        cell.cellIndex = UInt(indexPath.row)
-
         return cell
     }
     

@@ -15,17 +15,6 @@ class MediaTableViewCell: UITableViewCell {
     let usernameLabelGray: UIColor = UIColor(red: 0.933, green: 0.933, blue: 0.933, alpha: 1)
     let commentLabelGray: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
     var heightConstraint: NSLayoutConstraint!
-    private var _cellIndex: UInt = 0
-    var cellIndex: UInt {
-        get {
-            return self._cellIndex
-        }
-        set {
-            self._cellIndex = newValue
-            self.commentLabel.text = "\(self._cellIndex)"
-        }
-    }
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         // Initialization code
         self.mediaImageView = UIImageView()
@@ -75,11 +64,8 @@ class MediaTableViewCell: UITableViewCell {
         self.commentLabel.topAnchor.constraintEqualToAnchor(self.usernameAndCaptionLabel.bottomAnchor, constant: 0.0).active = true
         self.commentLabel.leadingAnchor.constraintEqualToAnchor(container.leadingAnchor, constant: 0.0).active = true
         self.commentLabel.trailingAnchor.constraintEqualToAnchor(container.trailingAnchor, constant: 0.0).active = true
-        
         self.heightConstraint = self.mediaImageView.heightAnchor.constraintEqualToConstant(200.0)
-//            NSLayoutConstraint(item: self.mediaImageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: 100.0)
         self.heightConstraint.active = true
-        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
