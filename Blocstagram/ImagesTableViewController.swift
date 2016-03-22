@@ -43,7 +43,15 @@ class ImagesTableViewController: UITableViewController {
         view.addLayoutGuide(container)
         //image ------------------------------------------------------------------------------
         cell.mediaImageView.image = convertedMedia.image
-        cell.heightConstraint.constant = findAdjustedHight( convertedMedia.image! )
+        let originalHeight = cell.mediaImageView.image?.size.height
+        let originalWidth = cell.mediaImageView.image?.size.width
+        if(originalHeight > originalWidth){
+            cell.widthConstraint.constant = findRadioWidthBigger(convertedMedia.image!) * 100
+            cell.heightConstraint.constant = 100
+        }else{
+            cell.widthConstraint.constant = 100
+            cell.heightConstraint.constant = findRadioHeightBigger(convertedMedia.image!) * 100
+        }
         //Username and caption ------------------------------------------------------------------------------
         let thisFullName = convertedMedia.user?.fullName as! String
         let thisCaption = convertedMedia.caption
@@ -94,11 +102,12 @@ class ImagesTableViewController: UITableViewController {
         let mediaItem = items[indexPath.row]
         let image = mediaItem.image!
         let sizeOfImage = image.size
-        let originalImgWidth = self.view.frame.width
-        let imageWidth = sizeOfImage.width
-        let imageHeight = sizeOfImage.height
-        let imageRatio = originalImgWidth/imageWidth
-        let adjustedImageHeight = imageRatio * imageHeight
+        var finalImageHeight:CGFloat = 100
+        let originalHeight = sizeOfImage.height
+        let originalWidth = sizeOfImage.width
+        if(originalWidth > originalHeight){
+            finalImageHeight = findRadioHeightBigger(mediaItem.image!) * 100
+        }
         // name and caption
         let thisFullName = mediaItem.user?.fullName as! String
         let thisCaption = mediaItem.caption
@@ -108,7 +117,7 @@ class ImagesTableViewController: UITableViewController {
         // comments
         let commentString = combineCommentText(indexPath)
         let commentHeight = heightForView(commentString, font: lightFont, width: tableWidth)
-        return CGFloat( adjustedImageHeight + usernameHeight + commentHeight)
+        return CGFloat( finalImageHeight + usernameHeight + commentHeight)
     }
     
     // MARK: - Table Edit
@@ -134,14 +143,19 @@ class ImagesTableViewController: UITableViewController {
         label.sizeToFit()
         return label.frame.height
     }
-    func findAdjustedHight(theImage:UIImage) -> CGFloat{
+    func findRadioHeightBigger(theImage:UIImage) -> CGFloat{
         let sizeOfImage = theImage.size
-        let originalImgWidth = self.view.frame.width
         let imageWidth = sizeOfImage.width
         let imageHeight = sizeOfImage.height
-        let imageRatio = originalImgWidth/imageWidth
-        let adjustedImageHeight = imageRatio * imageHeight
-        return adjustedImageHeight
+        let theRatio = imageHeight/imageWidth
+        return theRatio
+    }
+    func findRadioWidthBigger(theImage:UIImage) -> CGFloat{
+        let sizeOfImage = theImage.size
+        let imageWidth = sizeOfImage.width
+        let imageHeight = sizeOfImage.height
+        let theRatio = imageWidth/imageHeight
+        return theRatio
     }
     func combineCommentText(indexPath:NSIndexPath) -> String{
         let convertedMedia = items[indexPath.row]
