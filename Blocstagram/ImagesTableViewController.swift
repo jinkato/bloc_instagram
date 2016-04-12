@@ -16,12 +16,16 @@ class ImagesTableViewController: UITableViewController {
     let boldFont: UIFont = UIFont(name: "HelveticaNeue-Bold", size: 11)!
     let linkColor: UIColor = UIColor(red: 0.345, green: 0.314, blue: 0.427, alpha: 1)
     let container = UILayoutGuide()
+//    let data = RandomData.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserverForName("setTableBackgroundColor", object: nil, queue: nil) { (notification) -> Void in
             self.setBackgroundColor()
         }
+//        RandomData.sharedInstance.addObserver(self, forKeyPath: "mediaItems", options: .New, context: nil)
+   //     self.addObserver(self, forKeyPath: "data.mediaItems", options: .New, context: nil)
+        RandomData.addObserver(self, forKeyPath: "sharedInstance", options: .New, context: nil)
     }
     func setBackgroundColor() {
         self.tableView.backgroundColor = UIColor.grayColor();
@@ -38,7 +42,7 @@ class ImagesTableViewController: UITableViewController {
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("imageCell2", forIndexPath: indexPath) as! MediaTableViewCell
-        let convertedMedia = items[indexPath.row]
+        let convertedMedia = items[indexPath.row] as! Media
         let cellWidth = cell.frame.width
         view.addLayoutGuide(container)
         //image ------------------------------------------------------------------------------
@@ -99,7 +103,7 @@ class ImagesTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let mediaItem = items[indexPath.row]
+        let mediaItem = items[indexPath.row] as! Media
         let image = mediaItem.image!
         let sizeOfImage = image.size
         var finalImageHeight:CGFloat = 100
@@ -127,12 +131,22 @@ class ImagesTableViewController: UITableViewController {
     }
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            items.removeAtIndex(indexPath.row)
+//            items.removeAtIndex(indexPath.row)
+            items.removeObjectAtIndex(indexPath.row)
+//            items = items.arrayByAddingObject(items.objectAtIndex(indexPath.row))
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
     }
     
     // MARK: - Func
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if keyPath == "mediaItems" {
+            print("observed")
+        }
+        print("count")
+    }
+    
     
     func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
         let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))

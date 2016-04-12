@@ -8,12 +8,15 @@
 // https://github.com/hpique/SwiftSingleton
 
 import UIKit
+//import WebKit
 
 class RandomData: NSObject {
     public static let sharedInstance = RandomData()
-    var mediaItems:[Media] = []
+    var mediaItems:NSMutableArray = []
     private override init(){
-        mediaItems = addRandomData()
+        super.init()
+        mediaItems = NSMutableArray(array:addRandomData())
+    //    self.addObserver(self, forKeyPath: "mediaItems", options: .New, context: nil)
     }
 }
 
