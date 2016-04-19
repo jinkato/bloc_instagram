@@ -16,22 +16,44 @@ class ImagesTableViewController: UITableViewController {
     let boldFont: UIFont = UIFont(name: "HelveticaNeue-Bold", size: 11)!
     let linkColor: UIColor = UIColor(red: 0.345, green: 0.314, blue: 0.427, alpha: 1)
     let container = UILayoutGuide()
-//    let data = RandomData.sharedInstance
+    var myRefreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserverForName("setTableBackgroundColor", object: nil, queue: nil) { (notification) -> Void in
             self.setBackgroundColor()
         }
-//        RandomData.sharedInstance.addObserver(self, forKeyPath: "mediaItems", options: .New, context: nil)
-   //     self.addObserver(self, forKeyPath: "data.mediaItems", options: .New, context: nil)
         RandomData.addObserver(self, forKeyPath: "sharedInstance", options: .New, context: nil)
+        self.myRefreshControl = UIRefreshControl()
+        self.myRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.myRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(self.myRefreshControl)
+    }
+    
+    //- (void) requestNewItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler {
+    
+    func refresh(sender:AnyObject){
+        RandomData.sharedInstance.requestNewItemsWithCompletionHandler { (_) -> Void in
+            self.tableView.reloadData()
+        }
+//        self.tableView.reloadData()
+        self.myRefreshControl.endRefreshing()
     }
     func setBackgroundColor() {
         self.tableView.backgroundColor = UIColor.grayColor();
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    // MARK: - Table view scroll
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        //If we reach the end of the table.
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+            RandomData.sharedInstance.requestOldItemsWithCompletionHandler()
+            self.tableView.reloadData()
+        }
     }
     
     // MARK: - Table view data source

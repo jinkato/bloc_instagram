@@ -13,10 +13,56 @@ import UIKit
 class RandomData: NSObject {
     public static let sharedInstance = RandomData()
     var mediaItems:NSMutableArray = []
+    var isRefresing = false
+    var isLoadingOlderItems = false
+    
     private override init(){
         super.init()
         mediaItems = NSMutableArray(array:addRandomData())
-    //    self.addObserver(self, forKeyPath: "mediaItems", options: .New, context: nil)
+        isRefresing = false
+    }
+    typealias NewItemCompletionBlock = (inout NSError?) -> Void
+    func requestNewItemsWithCompletionHandler(completionHandler:NewItemCompletionBlock?){
+        if(self.isRefresing == false){
+            self.isRefresing = true
+            let imageName = "1.jpg"
+            let image = UIImage(named: imageName)
+            let media = Media()
+            var randomCommentArray:[ Comment ] = []
+            media.image = image
+            media.user = randomUser()
+            media.caption = randomSentance()
+            for _ in 1...5 {
+                let myRandomComment:Comment = randomComment()
+                randomCommentArray.append(myRandomComment)
+            }
+            media.comments = randomCommentArray
+            mediaItems.insertObject(media, atIndex: 0)
+            self.isRefresing = false
+        }
+        if let handler = completionHandler {
+            var err:NSError?
+            handler(&err)
+        }
+    }
+    func requestOldItemsWithCompletionHandler(){
+        if(self.isLoadingOlderItems == false){
+            self.isLoadingOlderItems = true
+            let imageName = "1.jpg"
+            let image = UIImage(named: imageName)
+            let media = Media()
+            var randomCommentArray:[ Comment ] = []
+            media.image = image
+            media.user = randomUser()
+            media.caption = randomSentance()
+            for _ in 1...5 {
+                let myRandomComment:Comment = randomComment()
+                randomCommentArray.append(myRandomComment)
+            }
+            media.comments = randomCommentArray
+            mediaItems.addObject(media)
+            self.isLoadingOlderItems = false
+        }
     }
 }
 
