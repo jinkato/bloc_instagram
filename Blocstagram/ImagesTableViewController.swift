@@ -30,8 +30,6 @@ class ImagesTableViewController: UITableViewController {
         self.tableView.addSubview(self.myRefreshControl)
     }
     
-    //- (void) requestNewItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler {
-    
     func refresh(sender:AnyObject){
         RandomData.sharedInstance.requestNewItemsWithCompletionHandler { (_) -> Void in
             self.tableView.reloadData()

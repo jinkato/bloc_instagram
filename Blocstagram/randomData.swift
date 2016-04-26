@@ -10,17 +10,31 @@
 import UIKit
 //import WebKit
 
+
+
 class RandomData: NSObject {
     public static let sharedInstance = RandomData()
     var mediaItems:NSMutableArray = []
     var isRefresing = false
     var isLoadingOlderItems = false
+    var accessToken:String = ""
     
     private override init(){
         super.init()
         mediaItems = NSMutableArray(array:addRandomData())
         isRefresing = false
+        registerForAccessTokenNotification()
     }
+    
+    func registerForAccessTokenNotification(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "someFunc:", name: "someFun", object: nil)
+    }
+    func someFunc(myNotification:NSNotification){
+        accessToken = myNotification.object as! String
+        print(accessToken)
+
+    }
+    
     typealias NewItemCompletionBlock = (inout NSError?) -> Void
     func requestNewItemsWithCompletionHandler(completionHandler:NewItemCompletionBlock?){
         if(self.isRefresing == false){
@@ -64,6 +78,12 @@ class RandomData: NSObject {
             self.isLoadingOlderItems = false
         }
     }
+    
+    /* ---------------------------------------------------- Instagram API */
+    func instagramClientID() -> String{
+        return "1c46981b5cbd4c238501eb6de8a0e47b"
+    }
+    
 }
 
 /* ---------------------------------------------------- String Func */
