@@ -43,10 +43,6 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
         }
         NSUserDefaults.standardUserDefaults().synchronize()
     }
-//    func webViewDidStartLoad(webView: UIWebView) {
-//        let urlString = webView.request?.URL
-//        print(urlString!)
-//    }
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         let urlString = request.URL?.absoluteString
         if urlString!.hasPrefix(redirectURI()){
@@ -56,8 +52,7 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
             let tokenUrlText = "/#access_token="
             let rangeOfTokenUrlText = tokenText?.rangeOfString( tokenUrlText )
             tokenText?.removeRange( rangeOfTokenUrlText! )
-            print(tokenText)
-            NSNotificationCenter.defaultCenter().postNotificationName("someFun", object: tokenText!)
+            NSNotificationCenter.defaultCenter().postNotificationName("accessTokenGetter", object: tokenText!)
         }
         return true;
     }

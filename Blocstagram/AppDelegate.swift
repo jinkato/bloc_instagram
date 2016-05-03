@@ -12,12 +12,68 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    func accessTokenGetter(myNotification:NSNotification){
+        let accessToken = myNotification.object as! String
+        let priority = DISPATCH_QUEUE_PRIORITY_HIGH
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            let urlString = "https://api.instagram.com/v1/users/self/media/recent/?access_token=\(accessToken)"
+            let url:NSURL = NSURL(string: urlString)!
+            let session = NSURLSession.sharedSession()
+            let task = session.dataTaskWithURL(url){(data, response, error) -> Void in
+                if error != nil{
+                    print("error = \(error?.localizedDescription) url = \(urlString) data = \(data)")
+                }else{
+                    do {
+                        let instagramData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
+                        var mediaDic:NSDictionary = instagramData
+//                        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//                        dispatch_async(dispatch_get_global_queue(priority, 0), {
+//                            dispatch_async(dispatch_get_main_queue(), { //back to the ui queue
+//                            })
+//                        })
+                        //parseDataFromFeedDictionary
+                    }catch{
+                        print("catch")
+                    }
+                }
+            }
+            task.resume()
+        }
+        //Setup the next view which is tableview
+        let ImagesTableVC:ImagesTableViewController = ImagesTableViewController()
+        self.window?.rootViewController = ImagesTableVC
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        // Setup Init Screen
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let uinav = UINavigationController()
+        
+//        var backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "")
+//        uinav.navigationItem.leftBarButtonItem = backButton
+//        uinav.navigationItem.setLeftBarButtonItem(backButton, animated: false)
+
+//        let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
+//        self.view.addSubview(navBar);
+//        let navItem = UINavigationItem(title: "SomeTitle");
+//        let doneItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: nil, action: "selector");
+//        navItem.rightBarButtonItem = doneItem;
+//        uinav.setItems([navItem], animated: false);
+        
+        let login = InstagramLogin()
+        uinav.viewControllers = [login]
+        self.window!.rootViewController = uinav
+        self.window?.makeKeyAndVisible()
+        
+        
+        
+        
+        // Setup observer for Token
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "accessTokenGetter:", name: "accessTokenGetter", object: nil)
         return true
     }
+    
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

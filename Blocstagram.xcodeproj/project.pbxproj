@@ -134,21 +134,15 @@
 			isa = PBXGroup;
 			children = (
 				213ACCC21C0A2B0400B54335 /* Main.storyboard */,
-				213ACCC71C0A2B0400B54335 /* LaunchScreen.storyboard */,
-				213ACCBE1C0A2B0400B54335 /* AppDelegate.swift */,
-				213ACCC51C0A2B0400B54335 /* Assets.xcassets */,
-				213ACCEC1C0A2BBD00B54335 /* images */,
 				213ACD011C0A2BF800B54335 /* ImagesTableViewController.swift */,
 				219F6F031C2766A40014ED51 /* MediaTableViewCell.swift */,
 				21011FE11CC5D536001AECCD /* InstagramLogin.swift */,
-				213ACCCA1C0A2B0400B54335 /* Info.plist */,
-				21F451E71C0BB69600B5C911 /* User.swift */,
-				21F451E91C0BB78500B5C911 /* Media.swift */,
-				215E68EA1C225FC300803028 /* Comment.swift */,
 				21352A671C7A5647001ED3C0 /* randomData.swift */,
-				21F451EF1C0BE99700B5C911 /* DataSource.h */,
-				21F451F01C0BE99700B5C911 /* DataSource.m */,
-				21F451EE1C0BE99700B5C911 /* Blocstagram-Bridging-Header.h */,
+				213ACCBE1C0A2B0400B54335 /* AppDelegate.swift */,
+				213ACCEC1C0A2BBD00B54335 /* images */,
+				21DD967C1CD7F098008B5031 /* DataType */,
+				21DD967B1CD7F068008B5031 /* other */,
+				21DD967A1CD7F058008B5031 /* bkup */,
 			);
 			path = Blocstagram;
 			sourceTree = "<group>";
@@ -186,6 +180,36 @@
 				213ACCF61C0A2BCA00B54335 /* 10.jpg */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		21DD967A1CD7F058008B5031 /* bkup */ = {
+			isa = PBXGroup;
+			children = (
+				21F451EF1C0BE99700B5C911 /* DataSource.h */,
+				21F451F01C0BE99700B5C911 /* DataSource.m */,
+			);
+			name = bkup;
+			sourceTree = "<group>";
+		};
+		21DD967B1CD7F068008B5031 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				213ACCCA1C0A2B0400B54335 /* Info.plist */,
+				213ACCC71C0A2B0400B54335 /* LaunchScreen.storyboard */,
+				213ACCC51C0A2B0400B54335 /* Assets.xcassets */,
+				21F451EE1C0BE99700B5C911 /* Blocstagram-Bridging-Header.h */,
+			);
+			name = other;
+			sourceTree = "<group>";
+		};
+		21DD967C1CD7F098008B5031 /* DataType */ = {
+			isa = PBXGroup;
+			children = (
+				21F451E71C0BB69600B5C911 /* User.swift */,
+				21F451E91C0BB78500B5C911 /* Media.swift */,
+				215E68EA1C225FC300803028 /* Comment.swift */,
+			);
+			name = DataType;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

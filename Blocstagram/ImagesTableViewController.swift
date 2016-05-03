@@ -19,6 +19,7 @@ class ImagesTableViewController: UITableViewController {
     var myRefreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
+        print("from image table view")
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserverForName("setTableBackgroundColor", object: nil, queue: nil) { (notification) -> Void in
             self.setBackgroundColor()
@@ -49,7 +50,7 @@ class ImagesTableViewController: UITableViewController {
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         //If we reach the end of the table.
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-            RandomData.sharedInstance.requestOldItemsWithCompletionHandler()
+//            RandomData.sharedInstance.requestOldItemsWithCompletionHandler()
             self.tableView.reloadData()
         }
     }
