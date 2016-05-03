@@ -14,6 +14,9 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Add Nav item
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "backAction")
+        
         webView.frame = self.view.bounds
         webView.delegate = self;
         self.view.addSubview(webView)
@@ -27,6 +30,11 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
         if(url != nil){
             let requestObj = NSURLRequest(URL: url!)
             webView.loadRequest(requestObj)
+        }
+    }
+    func backAction(){
+        if webView.canGoBack {
+            webView.goBack()
         }
     }
     func redirectURI() -> String{
