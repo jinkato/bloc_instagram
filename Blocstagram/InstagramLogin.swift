@@ -16,12 +16,11 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
         super.viewDidLoad()
         // Add Nav item
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "backAction")
-        
+        // Webview setup
         webView.frame = self.view.bounds
         webView.delegate = self;
         self.view.addSubview(webView)
         self.title = NSLocalizedString("Login", comment: "Login")
-    
         let clientID = RandomData.sharedInstance.instagramClientID()
         let redirectString = redirectURI()
         let urlString = "https://instagram.com/oauth/authorize/?client_id=\(clientID)&redirect_uri=\(redirectString)&response_type=token"
@@ -60,6 +59,12 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
             let tokenUrlText = "/#access_token="
             let rangeOfTokenUrlText = tokenText?.rangeOfString( tokenUrlText )
             tokenText?.removeRange( rangeOfTokenUrlText! )
+
+            // Setup the next view which is tableview
+            let ImagesTableVC:ImagesTableViewController = ImagesTableViewController()
+            UIApplication.sharedApplication().keyWindow?.rootViewController = ImagesTableVC
+
+            // Notification
             NSNotificationCenter.defaultCenter().postNotificationName("accessTokenGetter", object: tokenText!)
         }
         return true;

@@ -206,8 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				21F451E71C0BB69600B5C911 /* User.swift */,
-				21F451E91C0BB78500B5C911 /* Media.swift */,
 				215E68EA1C225FC300803028 /* Comment.swift */,
+				21F451E91C0BB78500B5C911 /* Media.swift */,
 			);
 			name = DataType;
 			sourceTree = "<group>";

@@ -19,18 +19,22 @@ class ImagesTableViewController: UITableViewController {
     var myRefreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
-        print("from image table view")
+        print("Table")
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserverForName("setTableBackgroundColor", object: nil, queue: nil) { (notification) -> Void in
-            self.setBackgroundColor()
-        }
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadTableWithUpdatedData:", name: "reload", object: nil)
+//        NSNotificationCenter.defaultCenter().addObserverForName("setTableBackgroundColor", object: nil, queue: nil) { (notification) -> Void in
+//            self.setBackgroundColor()
+//        }
         RandomData.addObserver(self, forKeyPath: "sharedInstance", options: .New, context: nil)
         self.myRefreshControl = UIRefreshControl()
         self.myRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.myRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.myRefreshControl)
     }
-    
+    func reloadTableWithUpdatedData(){
+        print("reload called")
+//        tableView.reloadData()
+    }
     func refresh(sender:AnyObject){
         RandomData.sharedInstance.requestNewItemsWithCompletionHandler { (_) -> Void in
             self.tableView.reloadData()
