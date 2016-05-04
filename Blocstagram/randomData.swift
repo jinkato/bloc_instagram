@@ -46,21 +46,16 @@ class RandomData: NSObject {
             }
             task.resume()
         }
-        
     }
+    
     func parseDataFromFeedDictionary(feedDictionary:NSDictionary){
         let mediaArray = feedDictionary["data"] as! NSMutableArray
-//        RandomData.sharedInstance.mediaItems = mediaArray
-        print("from data in func")
-        self.willChangeValueForKey("mediaItems")
-        self.mediaItems = mediaArray
-        self.didChangeValueForKey("mediaItems")
         //        var tmpMediaItems = NSMutableArray()
         //        for var i = 0; i < mediaArray.count; ++i {
         //            tmpMediaItems.addObject(mediaArray[i])
         //        }
         
-//        NSNotificationCenter.defaultCenter().postNotificationName("reload", object:nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("com.reload", object:nil)
         //                        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
         //                        dispatch_async(dispatch_get_global_queue(priority, 0), {
         //                            dispatch_async(dispatch_get_main_queue(), { //back to the ui queue
