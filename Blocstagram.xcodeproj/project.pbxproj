@@ -25,12 +25,16 @@
 		213ACCFE1C0A2BCA00B54335 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 213ACCF41C0A2BCA00B54335 /* 8.jpg */; settings = {ASSET_TAGS = (); }; };
 		213ACCFF1C0A2BCA00B54335 /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 213ACCF51C0A2BCA00B54335 /* 9.jpg */; settings = {ASSET_TAGS = (); }; };
 		213ACD001C0A2BCA00B54335 /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 213ACCF61C0A2BCA00B54335 /* 10.jpg */; settings = {ASSET_TAGS = (); }; };
-		213ACD021C0A2BF800B54335 /* ImagesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213ACD011C0A2BF800B54335 /* ImagesTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		213ACD021C0A2BF800B54335 /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213ACD011C0A2BF800B54335 /* MainTableView.swift */; settings = {ASSET_TAGS = (); }; };
+		214512741CE94CA1000F1B0B /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214512731CE94CA1000F1B0B /* FeedCell.swift */; settings = {ASSET_TAGS = (); }; };
 		215E68EB1C225FC300803028 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215E68EA1C225FC300803028 /* Comment.swift */; settings = {ASSET_TAGS = (); }; };
+		2188C6F61CDA93A500FBD7A1 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188C6F51CDA93A500FBD7A1 /* FeedView.swift */; settings = {ASSET_TAGS = (); }; };
+		2188C6F81CDAC90700FBD7A1 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188C6F71CDAC90700FBD7A1 /* CustomCell.swift */; settings = {ASSET_TAGS = (); }; };
 		219F6F041C2766A40014ED51 /* MediaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F6F031C2766A40014ED51 /* MediaTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		21B1D2EF1CDC38EA003D5936 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B1D2EE1CDC38EA003D5936 /* Util.swift */; settings = {ASSET_TAGS = (); }; };
+		21B1D2F11CDCFA84003D5936 /* MyExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B1D2F01CDCFA84003D5936 /* MyExtention.swift */; settings = {ASSET_TAGS = (); }; };
 		21F451E81C0BB69600B5C911 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F451E71C0BB69600B5C911 /* User.swift */; settings = {ASSET_TAGS = (); }; };
 		21F451EA1C0BB78500B5C911 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F451E91C0BB78500B5C911 /* Media.swift */; settings = {ASSET_TAGS = (); }; };
-		21F451F11C0BE99700B5C911 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F451F01C0BE99700B5C911 /* DataSource.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,14 +79,16 @@
 		213ACCF41C0A2BCA00B54335 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
 		213ACCF51C0A2BCA00B54335 /* 9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 9.jpg; sourceTree = "<group>"; };
 		213ACCF61C0A2BCA00B54335 /* 10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10.jpg; sourceTree = "<group>"; };
-		213ACD011C0A2BF800B54335 /* ImagesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTableViewController.swift; sourceTree = "<group>"; };
+		213ACD011C0A2BF800B54335 /* MainTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
+		214512731CE94CA1000F1B0B /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		215E68EA1C225FC300803028 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		2188C6F51CDA93A500FBD7A1 /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		2188C6F71CDAC90700FBD7A1 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		219F6F031C2766A40014ED51 /* MediaTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaTableViewCell.swift; sourceTree = "<group>"; };
+		21B1D2EE1CDC38EA003D5936 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		21B1D2F01CDCFA84003D5936 /* MyExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyExtention.swift; sourceTree = "<group>"; };
 		21F451E71C0BB69600B5C911 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		21F451E91C0BB78500B5C911 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
-		21F451EE1C0BE99700B5C911 /* Blocstagram-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blocstagram-Bridging-Header.h"; sourceTree = "<group>"; };
-		21F451EF1C0BE99700B5C911 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
-		21F451F01C0BE99700B5C911 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,16 +139,17 @@
 		213ACCBD1C0A2B0400B54335 /* Blocstagram */ = {
 			isa = PBXGroup;
 			children = (
-				213ACCC21C0A2B0400B54335 /* Main.storyboard */,
-				213ACD011C0A2BF800B54335 /* ImagesTableViewController.swift */,
+				213ACCBE1C0A2B0400B54335 /* AppDelegate.swift */,
+				213ACD011C0A2BF800B54335 /* MainTableView.swift */,
 				219F6F031C2766A40014ED51 /* MediaTableViewCell.swift */,
 				21011FE11CC5D536001AECCD /* InstagramLogin.swift */,
 				21352A671C7A5647001ED3C0 /* randomData.swift */,
-				213ACCBE1C0A2B0400B54335 /* AppDelegate.swift */,
+				21B1D2EE1CDC38EA003D5936 /* Util.swift */,
+				21B1D2F01CDCFA84003D5936 /* MyExtention.swift */,
 				213ACCEC1C0A2BBD00B54335 /* images */,
 				21DD967C1CD7F098008B5031 /* DataType */,
 				21DD967B1CD7F068008B5031 /* other */,
-				21DD967A1CD7F058008B5031 /* bkup */,
+				21B1D2F21CDCFBFF003D5936 /* Bkup */,
 			);
 			path = Blocstagram;
 			sourceTree = "<group>";
@@ -182,22 +189,23 @@
 			name = images;
 			sourceTree = "<group>";
 		};
-		21DD967A1CD7F058008B5031 /* bkup */ = {
+		21B1D2F21CDCFBFF003D5936 /* Bkup */ = {
 			isa = PBXGroup;
 			children = (
-				21F451EF1C0BE99700B5C911 /* DataSource.h */,
-				21F451F01C0BE99700B5C911 /* DataSource.m */,
+				2188C6F51CDA93A500FBD7A1 /* FeedView.swift */,
+				214512731CE94CA1000F1B0B /* FeedCell.swift */,
+				2188C6F71CDAC90700FBD7A1 /* CustomCell.swift */,
 			);
-			name = bkup;
+			name = Bkup;
 			sourceTree = "<group>";
 		};
 		21DD967B1CD7F068008B5031 /* other */ = {
 			isa = PBXGroup;
 			children = (
 				213ACCCA1C0A2B0400B54335 /* Info.plist */,
+				213ACCC21C0A2B0400B54335 /* Main.storyboard */,
 				213ACCC71C0A2B0400B54335 /* LaunchScreen.storyboard */,
 				213ACCC51C0A2B0400B54335 /* Assets.xcassets */,
-				21F451EE1C0BE99700B5C911 /* Blocstagram-Bridging-Header.h */,
 			);
 			name = other;
 			sourceTree = "<group>";
@@ -205,9 +213,9 @@
 		21DD967C1CD7F098008B5031 /* DataType */ = {
 			isa = PBXGroup;
 			children = (
+				21F451E91C0BB78500B5C911 /* Media.swift */,
 				21F451E71C0BB69600B5C911 /* User.swift */,
 				215E68EA1C225FC300803028 /* Comment.swift */,
-				21F451E91C0BB78500B5C911 /* Media.swift */,
 			);
 			name = DataType;
 			sourceTree = "<group>";
@@ -353,9 +361,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				213ACD021C0A2BF800B54335 /* ImagesTableViewController.swift in Sources */,
+				21B1D2F11CDCFA84003D5936 /* MyExtention.swift in Sources */,
+				214512741CE94CA1000F1B0B /* FeedCell.swift in Sources */,
+				21B1D2EF1CDC38EA003D5936 /* Util.swift in Sources */,
+				213ACD021C0A2BF800B54335 /* MainTableView.swift in Sources */,
 				215E68EB1C225FC300803028 /* Comment.swift in Sources */,
-				21F451F11C0BE99700B5C911 /* DataSource.m in Sources */,
+				2188C6F81CDAC90700FBD7A1 /* CustomCell.swift in Sources */,
+				2188C6F61CDA93A500FBD7A1 /* FeedView.swift in Sources */,
 				213ACCBF1C0A2B0400B54335 /* AppDelegate.swift in Sources */,
 				21F451EA1C0BB78500B5C911 /* Media.swift in Sources */,
 				21011FE21CC5D536001AECCD /* InstagramLogin.swift in Sources */,
@@ -508,7 +520,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jinkato.www.Blocstagram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Blocstagram/Blocstagram-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -522,7 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jinkato.www.Blocstagram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Blocstagram/Blocstagram-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};

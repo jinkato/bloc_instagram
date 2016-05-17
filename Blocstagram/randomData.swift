@@ -8,59 +8,65 @@
 // https://github.com/hpique/SwiftSingleton
 
 import UIKit
-//import WebKit
-
-
 
 class RandomData: NSObject {
     static let sharedInstance = RandomData()
     var mediaItems:NSMutableArray = []
+    var mediaItems2:[Media] = []
     var isRefresing = false
     var isLoadingOlderItems = false
     var accessToken:String = ""
+    var myDictionary:NSDictionary?
     
     private override init(){
         super.init()
         isRefresing = false
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "accessTokenGetter:", name: "accessTokenGetter", object: nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "accessTokenGetter:", name: "accessTokenGetter", object: nil)
     }
     
-    func accessTokenGetter(myNotification:NSNotification){
-        let accessToken = myNotification.object as! String
-        let priority = DISPATCH_QUEUE_PRIORITY_HIGH
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            let urlString = "https://api.instagram.com/v1/users/self/media/recent/?access_token=\(accessToken)"
-            let url:NSURL = NSURL(string: urlString)!
-            let session = NSURLSession.sharedSession()
-            let task = session.dataTaskWithURL(url){(data, response, error) -> Void in
-                if error != nil{
-                    print("error = \(error?.localizedDescription) url = \(urlString) data = \(data)")
-                }else{
-                    do {
-                        let instagramData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
-                        self.parseDataFromFeedDictionary(instagramData)
-                    }catch{
-                        print("catch")
-                    }
-                }
-            }
-            task.resume()
-        }
-    }
+//    func accessTokenGetter(myNotification:NSNotification){
+//        let accessToken = myNotification.object as! String
+//        let priority = DISPATCH_QUEUE_PRIORITY_HIGH
+//        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+//            let urlString = "https://api.instagram.com/v1/users/self/media/recent/?access_token=\(accessToken)"
+//            let url:NSURL = NSURL(string: urlString)!
+//            let session = NSURLSession.sharedSession()
+//            let task = session.dataTaskWithURL(url){(data, response, error) -> Void in
+//                if error != nil{
+//                    print("error = \(error?.localizedDescription) url = \(urlString) data = \(data)")
+//                }else{
+//                    do {
+//                        let instagramData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
+//                        self.parseDataFromFeedDictionary(instagramData)
+//                    }catch{
+//                        print("catch")
+//                    }
+//                }
+//            }
+//            task.resume()
+//        }
+//    }
     
     func parseDataFromFeedDictionary(feedDictionary:NSDictionary){
-        let mediaArray = feedDictionary["data"] as! NSMutableArray
-        //        var tmpMediaItems = NSMutableArray()
-        //        for var i = 0; i < mediaArray.count; ++i {
-        //            tmpMediaItems.addObject(mediaArray[i])
-        //        }
+        //let mediaArray:NSArray = feedDictionary["data"] as! NSMutableArray
+        //let mediaArray = RandomData.sharedInstance.myDictionary["data"]
         
-        NSNotificationCenter.defaultCenter().postNotificationName("com.reload", object:nil)
-        //                        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        //                        dispatch_async(dispatch_get_global_queue(priority, 0), {
-        //                            dispatch_async(dispatch_get_main_queue(), { //back to the ui queue
-        //                            })
-        //                        })
+        //print("mediaArray = \(mediaArray)")
+        
+//        var tmpMediaItems = [Media]()
+//        for mediaDictionary in mediaArray{
+//            let mediaItem = Media(mediaDictionary: mediaDictionary as! NSDictionary)
+//            tmpMediaItems.append(mediaItem)
+//        }
+//        self.mediaItems = tmpMediaItems as! NSMutableArray
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("com.reloadTable", object: nil)
+        // NSNotificationCenter.defaultCenter().postNotificationName("com.reload", object:nil)
+        //  let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        //  dispatch_async(dispatch_get_global_queue(priority, 0), {
+        //      dispatch_async(dispatch_get_main_queue(), { //back to the ui queue
+        //  })
+        // })
     }
     
     

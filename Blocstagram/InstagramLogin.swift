@@ -59,13 +59,11 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
             let tokenUrlText = "/#access_token="
             let rangeOfTokenUrlText = tokenText?.rangeOfString( tokenUrlText )
             tokenText?.removeRange( rangeOfTokenUrlText! )
-
-            // Setup the next view which is tableview
-            let ImagesTableVC:ImagesTableViewController = ImagesTableViewController()
-            UIApplication.sharedApplication().keyWindow?.rootViewController = ImagesTableVC
-
-            // Notification
+            
+            // Notification Send to randomData.swift
             NSNotificationCenter.defaultCenter().postNotificationName("accessTokenGetter", object: tokenText!)
+            // Notification Send to tableview
+            NSNotificationCenter.defaultCenter().postNotificationName("com.gototable", object: nil)
         }
         return true;
     }

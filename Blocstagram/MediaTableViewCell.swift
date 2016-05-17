@@ -8,77 +8,79 @@
 
 import UIKit
 
-class MediaTableViewCell: UITableViewCell {
-    var mediaImageView: UIImageView
-    var usernameAndCaptionLabel: UILabel
-    var commentLabel: UILabel
-    let usernameLabelGray: UIColor = UIColor(red: 0.933, green: 0.933, blue: 0.933, alpha: 1)
-    let commentLabelGray: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+class MediaCell: BaseTableCell {
     
-    var heightConstraint: NSLayoutConstraint!
-    var widthConstraint:NSLayoutConstraint!
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        // Initialization code
-        self.mediaImageView = UIImageView()
-        self.usernameAndCaptionLabel = UILabel()
-        self.commentLabel = UILabel()
-        //Super Init
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    var loadedImage:UIImage?{
+        didSet{
+            print("didset")
+            /*
+let viewWidth = UIScreen.mainScreen().bounds.width
+let viewHeight = Utils.returnNewImageHeight(image, viewWith: viewWidth)
+//imageView.frame.size.height = viewHeight
+print("viewWidth = \(viewWidth)       viewHeight = \(viewHeight)   ")
+            */
+        }
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        // fatalError("init(coder:) has not been implemented")
-        //image
-        self.mediaImageView = UIImageView()
-        self.mediaImageView.translatesAutoresizingMaskIntoConstraints = false
-        //username
-        self.usernameAndCaptionLabel = UILabel()
-        self.usernameAndCaptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.usernameAndCaptionLabel.backgroundColor = usernameLabelGray
-        self.usernameAndCaptionLabel.numberOfLines = 0
-        self.usernameAndCaptionLabel.lineBreakMode = .ByCharWrapping
-        //comment
-        self.commentLabel = UILabel()
-        self.commentLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.commentLabel.numberOfLines = 0
-        self.commentLabel.lineBreakMode = .ByCharWrapping
-        self.commentLabel.backgroundColor = commentLabelGray
-        // Init
-        super.init(coder: aDecoder)
-        // Add Subview
+    var mediaImageView: UIImageView = {
+       let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.blackColor()
+        return imageView
+    }()
+    var usernameAndCaptionLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = UIColor(red: 0.933, green: 0.933, blue: 0.933, alpha: 1)
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.ByCharWrapping
+        return label
+    }()
+    var commentLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.ByCharWrapping
+        label.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        return label
+    }()
+    
+    // ------------------------------------------------------------------------------------------ //
+    
+    override func setupView(){
+        let viewWidth = UIScreen.mainScreen().bounds.width
+        self.addSubview(self.mediaImageView)
         self.addSubview(self.usernameAndCaptionLabel)
         self.addSubview(self.commentLabel)
-        self.addSubview(self.mediaImageView)
+        let viewDict = ["mediaImageView":mediaImageView, "usernameAndCaptionLabel":usernameAndCaptionLabel, "commentLabel":commentLabel]
+        myAddConstraint("H:|[mediaImageView]|", view: mediaImageView, viewsDictionary: viewDict)
+        myAddConstraint("V:|[mediaImageView(\(viewWidth))]", view: mediaImageView, viewsDictionary: viewDict)
+        myAddConstraint("H:|[usernameAndCaptionLabel]|", view: usernameAndCaptionLabel, viewsDictionary: viewDict)
+        myAddConstraint("V:[mediaImageView]-0-[usernameAndCaptionLabel]", view: usernameAndCaptionLabel, viewsDictionary: viewDict)
+        myAddConstraint("H:|[commentLabel]|", view: commentLabel, viewsDictionary: viewDict)
+        myAddConstraint("V:[usernameAndCaptionLabel]-0-[commentLabel]", view: commentLabel, viewsDictionary: viewDict)
         
-        let container = UILayoutGuide()
-        self.addLayoutGuide(container)
-        let margins = self.layoutMarginsGuide
-        container.topAnchor.constraintEqualToAnchor(margins.topAnchor, constant: 0.0).active = true
-        container.leadingAnchor.constraintEqualToAnchor(margins.leadingAnchor, constant: 0.0).active = true
-        container.trailingAnchor.constraintEqualToAnchor(margins.trailingAnchor, constant: 0.0).active = true
-        self.mediaImageView.topAnchor.constraintEqualToAnchor(container.topAnchor, constant: 0.0).active = true
-        self.mediaImageView.leadingAnchor.constraintEqualToAnchor(container.leadingAnchor, constant: 0).active = true
-        self.heightConstraint = self.mediaImageView.heightAnchor.constraintEqualToConstant(100.0)
-        self.heightConstraint.active = true
-        self.widthConstraint = self.mediaImageView.widthAnchor.constraintEqualToConstant(100.0)
-        self.widthConstraint.active = true
-        self.usernameAndCaptionLabel.topAnchor.constraintEqualToAnchor(self.mediaImageView.bottomAnchor, constant: 0.0).active = true
-        self.usernameAndCaptionLabel.leadingAnchor.constraintEqualToAnchor(container.leadingAnchor, constant: 0.0).active = true
-        self.usernameAndCaptionLabel.trailingAnchor.constraintEqualToAnchor(container.trailingAnchor, constant: 0.0).active = true
-        self.commentLabel.topAnchor.constraintEqualToAnchor(self.usernameAndCaptionLabel.bottomAnchor, constant: 0.0).active = true
-        self.commentLabel.leadingAnchor.constraintEqualToAnchor(container.leadingAnchor, constant: 0.0).active = true
-        self.commentLabel.trailingAnchor.constraintEqualToAnchor(container.trailingAnchor, constant: 0.0).active = true
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
-
 }
 
 
+
+class BaseTableCell:UITableViewCell {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        //print("UITableViewCell Init")
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupView()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        //print("UITableViewCell aDecoder Init")
+        super.init(coder: aDecoder)
+        setupView()
+    }
+    func setupView(){}
+}
 
 
 
