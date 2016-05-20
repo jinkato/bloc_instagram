@@ -1,6 +1,5 @@
 {
-    data =     (
-                {
+    data =({
             attribution = "<null>";
             caption = "<null>";
             comments =             {

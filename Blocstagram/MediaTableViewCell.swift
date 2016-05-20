@@ -10,17 +10,11 @@ import UIKit
 
 class MediaCell: BaseTableCell {
     
-    var loadedImage:UIImage?{
-        didSet{
-            print("didset")
-            /*
-let viewWidth = UIScreen.mainScreen().bounds.width
-let viewHeight = Utils.returnNewImageHeight(image, viewWith: viewWidth)
-//imageView.frame.size.height = viewHeight
-print("viewWidth = \(viewWidth)       viewHeight = \(viewHeight)   ")
-            */
-        }
-    }
+//    var loadedImage:UIImage?{
+//        didSet{
+//            print("didset")
+//        }
+//    }
     var mediaImageView: UIImageView = {
        let imageView = UIImageView()
         imageView.backgroundColor = UIColor.blackColor()

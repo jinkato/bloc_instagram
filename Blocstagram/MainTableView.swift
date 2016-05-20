@@ -11,13 +11,11 @@ import UIKit
 class MainTableView: UITableViewController {
 
     // MARK: - Variables
-    var items = RandomData.sharedInstance.mediaItems
     var mediaList:[Media] = []
     
     let lightFont: UIFont = UIFont(name: "HelveticaNeue-Thin", size: 11)!
     let boldFont: UIFont = UIFont(name: "HelveticaNeue-Bold", size: 11)!
     let linkColor: UIColor = UIColor(red: 0.345, green: 0.314, blue: 0.427, alpha: 1)
-    let container = UILayoutGuide()
     var myRefreshControl: UIRefreshControl!
     let cellId = "cellId"
     
@@ -31,11 +29,13 @@ class MainTableView: UITableViewController {
         self.myRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.myRefreshControl)
         self.tableView.registerClass(MediaCell.self, forCellReuseIdentifier: cellId)
+        
+        self.tableView.estimatedRowHeight = 300
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     func reloadTable(){
-        print("reload called")
-        self.mediaList = RandomData.sharedInstance.mediaItems2
+        self.mediaList = RandomData.sharedInstance.mediaItems
         self.tableView.reloadData()
     }
     
@@ -47,9 +47,7 @@ class MainTableView: UITableViewController {
         return count
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print("cellForRowAtIndexPath")
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! MediaCell
-        
         // Username and caption
         let fullName = self.mediaList[indexPath.row].user?.fullName as! String
         let caption = self.mediaList[indexPath.row].caption as String
@@ -61,43 +59,9 @@ class MainTableView: UITableViewController {
         usernameCaptionAttribute.addAttribute(NSKernAttributeName, value: 2, range: NSRange(location:0,length:fullNameCount))
         cell.usernameAndCaptionLabel.text = userCaptionString
         cell.usernameAndCaptionLabel.attributedText = usernameCaptionAttribute
-        
-        // Comment
-        //cell.commentLabel.text = self.mediaList[indexPath.row].idNumber as String
-        
         // Image
         let cellImage = self.mediaList[indexPath.row].mediaURL as String
         Utils.asyncLoadImage(cellImage, imageView: cell.mediaImageView)
-
-        // comment ------------------------------------------------------------------------------
-//        let commentCount = convertedMedia.comments.count
-//        var commentString = ""
-//        for i in 1...commentCount {
-//            let username = convertedMedia.comments[(i-1)].from!.fullName as String
-//            if i == 1 {
-//                commentString = "\(username) \(convertedMedia.comments[(i-1)].text as String)"
-//            }else{
-//                commentString = "\(commentString)\n\n\(username) \(convertedMedia.comments[(i-1)].text as String)"
-//            }
-//        }
-//        cell.commentLabel.text = commentString
-//        cell.commentLabel.translatesAutoresizingMaskIntoConstraints = false
-//        let commentAttribute = NSMutableAttributedString(string: commentString, attributes: [NSFontAttributeName: lightFont])
-//        var characterCount = 0
-//        for i in 1...commentCount {
-//            let username = convertedMedia.comments[(i-1)].from!.fullName as String
-//            let comment = convertedMedia.comments[(i-1)].text as String
-//            let usernameCount = username.characters.count
-//            let commentCount = comment.characters.count
-//            commentAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:characterCount,length:usernameCount))
-//            commentAttribute.addAttribute(NSFontAttributeName, value: boldFont, range: NSRange(location:characterCount,length:usernameCount))
-//            characterCount += (usernameCount + commentCount + 3)
-//        }
-//        cell.commentLabel.attributedText = commentAttribute
-//        cell.commentLabel.frame.size.height = 20
-//        cell.commentLabel.frame.size.width = cellWidth
-//        cell.commentLabel.sizeToFit()
-        
         return cell
     }
     
@@ -110,52 +74,41 @@ class MainTableView: UITableViewController {
         let caption = mediaItem.caption as String
         let userCaptionString = "\(fullName) \(caption)"
         let usernameHeight = Utils.heightForView(userCaptionString, font: lightFont, width: tableWidth)
-        // comments
-        //let commentString = combineCommentText(indexPath)
-        //let commentHeight = heightForView(commentString, font: lightFont, width: tableWidth)
-        return CGFloat( tableWidth + usernameHeight + 10)
+        return CGFloat( tableWidth + usernameHeight)
     }
     
     // MARK: - Table view scroll
     
-    //    override func scrollViewDidScroll(scrollView: UIScrollView) {
-    //        //If we reach the end of the table.
-    //        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-    //            //RandomData.sharedInstance.requestOldItemsWithCompletionHandler()
-    //            self.tableView.reloadData()
-    //        }
-    //    }
+        override func scrollViewDidScroll(scrollView: UIScrollView) {
+            //If we reach the end of the table.
+            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+                //RandomData.sharedInstance.requestOldItemsWithCompletionHandler()
+                self.tableView.reloadData()
+            }
+        }
     
     // MARK: - Table Edit
     
-//    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        return true
-//    }
-//    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if (editingStyle == UITableViewCellEditingStyle.Delete) {
-//            items.removeObjectAtIndex(indexPath.row)
-//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-//        }
-//    }
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            self.mediaList.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
+    
+    
+    
     
     // MARK: - Func
-
-//    func combineCommentText(indexPath:NSIndexPath) -> String{
-//        let convertedMedia = items[indexPath.row]
-//        let commentCount = convertedMedia.comments.count
-//        var commentString = ""
-//        for i in 1...commentCount {
-//            let username = convertedMedia.comments[(i-1)].from!.fullName
-//            if i == 1 {
-//                commentString = "\(username)  \(convertedMedia.comments[(i-1)].text as String)"
-//            }else{
-//                commentString = "\(username)  \(convertedMedia.comments[(i-1)].text as String)\n\n\(commentString)"
-//            }
-//        }
-//        return commentString
-//    }
+    
     func refresh(sender:AnyObject){
         RandomData.sharedInstance.requestNewItemsWithCompletionHandler { (_) -> Void in
+            
+            
+            
             self.tableView.reloadData()
         }
         //self.tableView.reloadData()

@@ -13,36 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    func accessTokenGetter(myNotification:NSNotification){
-        let accessToken = myNotification.object as! String
-        let priority = DISPATCH_QUEUE_PRIORITY_HIGH
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            let urlString = "https://api.instagram.com/v1/users/self/media/recent/?access_token=\(accessToken)"
-            let url:NSURL = NSURL(string: urlString)!
-            let session = NSURLSession.sharedSession()
-            let task = session.dataTaskWithURL(url){(data, response, error) -> Void in
-                if error != nil{
-                    print("error = \(error?.localizedDescription) url = \(urlString) data = \(data)")
-                }else{
-                    do {
-                        let instagramData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
-                        let tempDictionary = instagramData["data"]
-                        let tempArray = tempDictionary! as! NSMutableArray
-                        for item in tempArray{
-                            let tempItem = Media(mediaDictionary: item as! NSDictionary)
-                            RandomData.sharedInstance.mediaItems2.append(tempItem)
-                        }
-                        dispatch_async(dispatch_get_main_queue(), {
-                            NSNotificationCenter.defaultCenter().postNotificationName("com.reloadtable", object: nil)
-                        })
-                    }catch{
-                        print("catch")
-                    }
-                }
-            }
-            task.resume()
-        }
-        //Setup the next view which is tableview
+    func gotoTableView(){
         let ImagesTableVC:MainTableView = MainTableView()
         self.window?.rootViewController = ImagesTableVC
     }
@@ -55,20 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         uinav.viewControllers = [login]
         self.window!.rootViewController = uinav
         self.window?.makeKeyAndVisible()
+        _ = RandomData.sharedInstance.mediaItems//Because RandomData init does not get called if we don't do this
         
         // Setup observer for Token
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "accessTokenGetter:", name: "accessTokenGetter", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoTableView", name: "gototable", object: nil)
         return true
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

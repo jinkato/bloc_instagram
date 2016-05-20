@@ -21,7 +21,7 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
         webView.delegate = self;
         self.view.addSubview(webView)
         self.title = NSLocalizedString("Login", comment: "Login")
-        let clientID = RandomData.sharedInstance.instagramClientID()
+        let clientID = "1c46981b5cbd4c238501eb6de8a0e47b"
         let redirectString = redirectURI()
         let urlString = "https://instagram.com/oauth/authorize/?client_id=\(clientID)&redirect_uri=\(redirectString)&response_type=token"
         let urlStringEncoding = urlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
@@ -62,8 +62,8 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
             
             // Notification Send to randomData.swift
             NSNotificationCenter.defaultCenter().postNotificationName("accessTokenGetter", object: tokenText!)
-            // Notification Send to tableview
-            NSNotificationCenter.defaultCenter().postNotificationName("com.gototable", object: nil)
+            // Notification Send to AppDelegate
+            NSNotificationCenter.defaultCenter().postNotificationName("gototable", object: nil)
         }
         return true;
     }

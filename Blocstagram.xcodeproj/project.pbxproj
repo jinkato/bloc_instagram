@@ -140,10 +140,10 @@
 			isa = PBXGroup;
 			children = (
 				213ACCBE1C0A2B0400B54335 /* AppDelegate.swift */,
+				21352A671C7A5647001ED3C0 /* randomData.swift */,
+				21011FE11CC5D536001AECCD /* InstagramLogin.swift */,
 				213ACD011C0A2BF800B54335 /* MainTableView.swift */,
 				219F6F031C2766A40014ED51 /* MediaTableViewCell.swift */,
-				21011FE11CC5D536001AECCD /* InstagramLogin.swift */,
-				21352A671C7A5647001ED3C0 /* randomData.swift */,
 				21B1D2EE1CDC38EA003D5936 /* Util.swift */,
 				21B1D2F01CDCFA84003D5936 /* MyExtention.swift */,
 				213ACCEC1C0A2BBD00B54335 /* images */,

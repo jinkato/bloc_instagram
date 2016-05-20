@@ -11,7 +11,7 @@ import UIKit
 class ImagesTableViewController: UITableViewController {
 
     // MARK: - Variables
-    var items = RandomData.sharedInstance.mediaItems
+    //var items = RandomData.sharedInstance.mediaItems
     var mediaList:[Media] = []
     
     let lightFont: UIFont = UIFont(name: "HelveticaNeue-Thin", size: 11)!
@@ -38,7 +38,7 @@ class ImagesTableViewController: UITableViewController {
     
     func reloadTable(){
         print("reload called")
-        self.mediaList = RandomData.sharedInstance.mediaItems2
+        self.mediaList = RandomData.sharedInstance.mediaItems
         self.tableView.reloadData()
     }
 //    func refresh(sender:AnyObject){
