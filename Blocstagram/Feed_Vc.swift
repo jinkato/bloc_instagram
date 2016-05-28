@@ -8,10 +8,10 @@
 
 import UIKit
 
-class MainTableView: UITableViewController {
+class FeedViewController: UITableViewController {
 
     // MARK: - Variables
-    var mediaList:[Media] = []
+    var mediaList:[Feed] = []
     
     let lightFont: UIFont = UIFont(name: "HelveticaNeue-Thin", size: 11)!
     let boldFont: UIFont = UIFont(name: "HelveticaNeue-Bold", size: 11)!
@@ -28,14 +28,14 @@ class MainTableView: UITableViewController {
         self.myRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.myRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.myRefreshControl)
-        self.tableView.registerClass(MediaCell.self, forCellReuseIdentifier: cellId)
+        self.tableView.registerClass(FeedCell.self, forCellReuseIdentifier: cellId)
         
         self.tableView.estimatedRowHeight = 300
         self.tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     func reloadTable(){
-        self.mediaList = RandomData.sharedInstance.mediaItems
+        self.mediaList = DataSource.sharedInstance.mediaItems
         self.tableView.reloadData()
     }
     
@@ -46,8 +46,9 @@ class MainTableView: UITableViewController {
         let count = self.mediaList.count
         return count
     }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! MediaCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! FeedCell
         // Username and caption
         let fullName = self.mediaList[indexPath.row].user?.fullName as! String
         let caption = self.mediaList[indexPath.row].caption as String
@@ -62,6 +63,8 @@ class MainTableView: UITableViewController {
         // Image
         let cellImage = self.mediaList[indexPath.row].mediaURL as String
         Utils.asyncLoadImage(cellImage, imageView: cell.mediaImageView)
+        // Comment
+        cell.commentLabel.text = "\(DataSource.sharedInstance.mediaItems[indexPath.row].comments.count)"
         return cell
     }
     
@@ -74,7 +77,7 @@ class MainTableView: UITableViewController {
         let caption = mediaItem.caption as String
         let userCaptionString = "\(fullName) \(caption)"
         let usernameHeight = Utils.heightForView(userCaptionString, font: lightFont, width: tableWidth)
-        return CGFloat( tableWidth + usernameHeight)
+        return CGFloat( tableWidth + usernameHeight + 100)
     }
     
     // MARK: - Table view scroll
@@ -105,7 +108,7 @@ class MainTableView: UITableViewController {
     // MARK: - Func
     
     func refresh(sender:AnyObject){
-        RandomData.sharedInstance.requestNewItemsWithCompletionHandler { (_) -> Void in
+        DataSource.sharedInstance.requestNewItemsWithCompletionHandler { (_) -> Void in
             
             
             

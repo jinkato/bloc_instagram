@@ -25,7 +25,7 @@ class Utils {
         let imageWidth = image.size.width
         let theRatio = imageHeight/imageWidth
         let finalHeight = viewWith * theRatio
-        print("imageHeight = \(imageHeight)       imageWidth = \(imageWidth)   ")
+        //print("imageHeight = \(imageHeight)       imageWidth = \(imageWidth)   ")
         return finalHeight
     }
     

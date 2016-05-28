@@ -8,13 +8,14 @@
 
 import UIKit
 
-class Media: NSObject {
+class Feed: NSObject {
     var idNumber : NSString = ""
     var mediaURL : NSString = ""
     var image : UIImage? = nil
     var caption : NSString = ""
     var user : User?
-    //var comments : [Comment] = []
+    var comments : [Comment] = []
+    var commentsDidLoad = false
     
     init(mediaDictionary:NSDictionary) {
         super.init()

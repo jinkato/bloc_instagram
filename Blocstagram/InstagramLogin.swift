@@ -61,9 +61,7 @@ class InstagramLogin: UIViewController, UIWebViewDelegate {
             tokenText?.removeRange( rangeOfTokenUrlText! )
             
             // Notification Send to randomData.swift
-            NSNotificationCenter.defaultCenter().postNotificationName("accessTokenGetter", object: tokenText!)
-            // Notification Send to AppDelegate
-            NSNotificationCenter.defaultCenter().postNotificationName("gototable", object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("registerAccessToken", object: tokenText!)
         }
         return true;
     }

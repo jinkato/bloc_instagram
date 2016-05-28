@@ -23,20 +23,20 @@
             </objects>
             <point key="canvasLocation" x="258" y="828"/>
         </scene>
-        <!--Images Table View Controller-->
+        <!--Feed View Controller-->
         <scene sceneID="nL5-JN-Y5X">
             <objects>
-                <tableViewController id="WCF-MO-hYv" customClass="ImagesTableViewController" customModule="Blocstagram" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="WCF-MO-hYv" customClass="FeedViewController" customModule="Blocstagram" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="xY2-6t-enl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageCell2" id="ocj-2k-DPz" customClass="MediaTableViewCell" customModule="Blocstagram" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageCell2" id="ocj-2k-DPz" customClass="FeedCell" customModule="Blocstagram" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ocj-2k-DPz" id="DMo-uK-TtC">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>

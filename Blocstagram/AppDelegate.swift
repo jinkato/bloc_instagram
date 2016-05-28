@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func gotoTableView(){
-        let ImagesTableVC:MainTableView = MainTableView()
+        let ImagesTableVC:FeedViewController = FeedViewController()
         self.window?.rootViewController = ImagesTableVC
     }
     
@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         uinav.viewControllers = [login]
         self.window!.rootViewController = uinav
         self.window?.makeKeyAndVisible()
-        _ = RandomData.sharedInstance.mediaItems//Because RandomData init does not get called if we don't do this
+        _ = DataSource.sharedInstance.mediaItems//Because RandomData init does not get called if we don't do this
         
         // Setup observer for Token
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoTableView", name: "gototable", object: nil)
