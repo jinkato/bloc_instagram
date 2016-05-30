@@ -11,11 +11,6 @@ import UIKit
 class FeedViewController: UITableViewController {
 
     // MARK: - Variables
-    var mediaList:[Feed] = []
-    
-    let lightFont: UIFont = UIFont(name: "HelveticaNeue-Thin", size: 11)!
-    let boldFont: UIFont = UIFont(name: "HelveticaNeue-Bold", size: 11)!
-    let linkColor: UIColor = UIColor(red: 0.345, green: 0.314, blue: 0.427, alpha: 1)
     var myRefreshControl: UIRefreshControl!
     let cellId = "cellId"
     
@@ -29,103 +24,61 @@ class FeedViewController: UITableViewController {
         self.myRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.myRefreshControl)
         self.tableView.registerClass(FeedCell.self, forCellReuseIdentifier: cellId)
-        
-        self.tableView.estimatedRowHeight = 300
-        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
     
-    func reloadTable(){
-        self.mediaList = DataSource.sharedInstance.mediaItems
-        self.tableView.reloadData()
-    }
-    
-    // MARK: - Table view data source
+    // MARK: - Table view ----------------------------------------------------------------------------
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        let count = self.mediaList.count
+        let count = DataSource.sharedInstance.feeds.count
         return count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! FeedCell
-        // Username and caption
-        let fullName = self.mediaList[indexPath.row].user?.fullName as! String
-        let caption = self.mediaList[indexPath.row].caption as String
-        let fullNameCount:Int = fullName.characters.count
-        let userCaptionString = "\(fullName) \(caption)"
-        let usernameCaptionAttribute = NSMutableAttributedString(string: userCaptionString, attributes: [NSFontAttributeName: lightFont])
-        usernameCaptionAttribute.addAttribute(NSFontAttributeName, value: boldFont, range: NSRange(location:0,length:fullNameCount))
-        usernameCaptionAttribute.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location:0,length:fullNameCount))
-        usernameCaptionAttribute.addAttribute(NSKernAttributeName, value: 2, range: NSRange(location:0,length:fullNameCount))
-        cell.usernameAndCaptionLabel.text = userCaptionString
-        cell.usernameAndCaptionLabel.attributedText = usernameCaptionAttribute
+        cell.feed = DataSource.sharedInstance.feeds[indexPath.row]
+        cell.commentArray = DataSource.sharedInstance.feeds[indexPath.row].comments
         // Image
-        let cellImage = self.mediaList[indexPath.row].mediaURL as String
-        Utils.asyncLoadImage(cellImage, imageView: cell.mediaImageView)
-        // Comment
-        cell.commentLabel.text = "\(DataSource.sharedInstance.mediaItems[indexPath.row].comments.count)"
+        cell.mainImageView.image = nil
+        let cellImage = DataSource.sharedInstance.feeds[indexPath.row].mediaURL as String
+        Utils.asyncLoadImage(cellImage, imageView: cell.mainImageView)
         return cell
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let mediaItem = self.mediaList[indexPath.row] 
-        // Image
         let tableWidth:CGFloat = tableView.frame.width
         // Name and caption
-        let fullName = mediaItem.user?.fullName as! String
-        let caption = mediaItem.caption as String
+        let fullName = DataSource.sharedInstance.feeds[indexPath.row].user?.fullName as! String
+        let caption = DataSource.sharedInstance.feeds[indexPath.row].caption as String
         let userCaptionString = "\(fullName) \(caption)"
-        let usernameHeight = Utils.heightForView(userCaptionString, font: lightFont, width: tableWidth)
-        return CGFloat( tableWidth + usernameHeight + 100)
+        let nameSize = CGSizeMake(tableWidth, 1000)
+        let nameRect = NSString(string: userCaptionString).boundingRectWithSize(nameSize, options: NSStringDrawingOptions.UsesFontLeading.union(NSStringDrawingOptions.UsesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFontOfSize(11)], context: nil)
+        // Comment
+        let commentArray = DataSource.sharedInstance.feeds[indexPath.row].comments
+        let commentText = Utils.concatenateCommentArray(commentArray)
+        let commentSize = CGSizeMake(tableWidth, 1000)
+        let commentRect = NSString(string: commentText).boundingRectWithSize(commentSize, options: NSStringDrawingOptions.UsesFontLeading.union(NSStringDrawingOptions.UsesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFontOfSize(11)], context: nil)
+        return CGFloat( tableWidth + nameRect.height + commentRect.height)
     }
     
-    // MARK: - Table view scroll
-    
-        override func scrollViewDidScroll(scrollView: UIScrollView) {
-            //If we reach the end of the table.
-            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-                //RandomData.sharedInstance.requestOldItemsWithCompletionHandler()
-                self.tableView.reloadData()
-            }
-        }
-    
-    // MARK: - Table Edit
-    
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            self.mediaList.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        //If we reach the end of the table.
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+            //RandomData.sharedInstance.requestOldItems()
         }
     }
     
-    
-    
-    
-    // MARK: - Func
+    // MARK: - Func ----------------------------------------------------------------------------
     
     func refresh(sender:AnyObject){
-        DataSource.sharedInstance.requestNewItemsWithCompletionHandler { (_) -> Void in
-            
-            
-            
-            self.tableView.reloadData()
-        }
-        //self.tableView.reloadData()
         self.myRefreshControl.endRefreshing()
     }
+    
+    func reloadTable(){
+        self.tableView.reloadData()
+    }
+    
 }
-
-
-
-
-
-
-
-
 
 
 

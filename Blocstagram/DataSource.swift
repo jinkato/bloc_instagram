@@ -11,7 +11,7 @@ import UIKit
 
 class DataSource: NSObject {
     static let sharedInstance = DataSource()
-    var mediaItems:[Feed] = []
+    var feeds:[Feed] = []
     var isRefresing = false
     var isLoadingOlderItems = false
     var accessToken:String = ""
@@ -44,9 +44,8 @@ class DataSource: NSObject {
                 }else{
                     do {
                         let instagramData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
-                        DataSource.sharedInstance.mediaItems = self.convertFeedJsonToArray(instagramData)
+                        DataSource.sharedInstance.feeds = self.convertFeedJsonToArray(instagramData)
                         completion()
-                        
                     }catch{
                         print("error")
                     }
@@ -57,9 +56,9 @@ class DataSource: NSObject {
     }
     
     func getAllCommentFeed(){
-        let count = DataSource.sharedInstance.mediaItems.count
+        let count = DataSource.sharedInstance.feeds.count
         for var i = 0; i < count; i++ {
-            let mediaId = DataSource.sharedInstance.mediaItems[i].idNumber as String
+            let mediaId = DataSource.sharedInstance.feeds[i].idNumber as String
             self.getCommentJson(mediaId, location: i)
         }
     }
@@ -76,8 +75,8 @@ class DataSource: NSObject {
                 }else{
                     do {
                         let commentDict = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
-                        DataSource.sharedInstance.mediaItems[location].comments = self.convertCommentToArray(commentDict)
-                        DataSource.sharedInstance.mediaItems[location].commentsDidLoad = true
+                        DataSource.sharedInstance.feeds[location].comments = self.convertCommentToArray(commentDict)
+                        DataSource.sharedInstance.feeds[location].commentsDidLoad = true
                         self.checkIfAllCommentsLoaded()
                     }catch{
                         print("error")
@@ -89,7 +88,7 @@ class DataSource: NSObject {
     }
     
     func checkIfAllCommentsLoaded(){
-        let feeds = DataSource.sharedInstance.mediaItems
+        let feeds = DataSource.sharedInstance.feeds
         var allCommentsLoaded = true
         for feed in feeds {
             if (feed.commentsDidLoad == false) {
@@ -136,32 +135,22 @@ class DataSource: NSObject {
     
     
     
-    
+    // ------------------------------------ unused
     
     typealias NewItemCompletionBlock = (inout NSError?) -> Void
     
-    func requestNewItemsWithCompletionHandler(completionHandler:NewItemCompletionBlock?){
+    func requestNewItems(completionHandler:NewItemCompletionBlock?){
         if(self.isRefresing == false){
             self.isRefresing = true
             // TODO: Add images
             self.isRefresing = false
-            
-//            let minID = "\(self.mediaItems.first)"
-//            var parameters = NSDictionary()
-            
-            //getJsonWithToken()
-//            if (minID) {
-//                parameters = ["min_id" : minID]
-//            }
-            
-            
         }
         if let handler = completionHandler {
             var err:NSError?
             handler(&err)
         }
     }
-    func requestOldItemsWithCompletionHandler(completionHandler:NewItemCompletionBlock?){
+    func requestOldItems(completionHandler:NewItemCompletionBlock?){
         if(self.isLoadingOlderItems == false){
             self.isLoadingOlderItems = true
             // TODO: Add images
@@ -172,6 +161,7 @@ class DataSource: NSObject {
             handler(&err)
         }
     }
+    
     
 }
 

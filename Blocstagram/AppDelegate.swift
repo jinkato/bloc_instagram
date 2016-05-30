@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         uinav.viewControllers = [login]
         self.window!.rootViewController = uinav
         self.window?.makeKeyAndVisible()
-        _ = DataSource.sharedInstance.mediaItems//Because RandomData init does not get called if we don't do this
+        _ = DataSource.sharedInstance.feeds//Because DataSource init does not get called if we don't do this
         
         // Setup observer for Token
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoTableView", name: "gototable", object: nil)

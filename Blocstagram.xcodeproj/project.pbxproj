@@ -26,6 +26,7 @@
 		213ACCFF1C0A2BCA00B54335 /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 213ACCF51C0A2BCA00B54335 /* 9.jpg */; settings = {ASSET_TAGS = (); }; };
 		213ACD001C0A2BCA00B54335 /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 213ACCF61C0A2BCA00B54335 /* 10.jpg */; settings = {ASSET_TAGS = (); }; };
 		213ACD021C0A2BF800B54335 /* Feed_Vc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213ACD011C0A2BF800B54335 /* Feed_Vc.swift */; settings = {ASSET_TAGS = (); }; };
+		2151FC751CFA9E2100EAFB6A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2151FC741CFA9E2100EAFB6A /* Font.swift */; settings = {ASSET_TAGS = (); }; };
 		215E68EB1C225FC300803028 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215E68EA1C225FC300803028 /* Comment.swift */; settings = {ASSET_TAGS = (); }; };
 		21665D5A1CF92DA7005210DD /* BaseTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21665D591CF92DA7005210DD /* BaseTableCell.swift */; settings = {ASSET_TAGS = (); }; };
 		219F6F041C2766A40014ED51 /* Feed_Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F6F031C2766A40014ED51 /* Feed_Cell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -78,6 +79,7 @@
 		213ACCF51C0A2BCA00B54335 /* 9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 9.jpg; sourceTree = "<group>"; };
 		213ACCF61C0A2BCA00B54335 /* 10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10.jpg; sourceTree = "<group>"; };
 		213ACD011C0A2BF800B54335 /* Feed_Vc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed_Vc.swift; sourceTree = "<group>"; };
+		2151FC741CFA9E2100EAFB6A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Font.swift; path = Helper/Font.swift; sourceTree = "<group>"; };
 		215E68EA1C225FC300803028 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		21665D591CF92DA7005210DD /* BaseTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseTableCell.swift; path = View/BaseTableCell.swift; sourceTree = "<group>"; };
 		219F6F031C2766A40014ED51 /* Feed_Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed_Cell.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				213ACCBE1C0A2B0400B54335 /* AppDelegate.swift */,
 				21352A671C7A5647001ED3C0 /* DataSource.swift */,
 				21B1D2EE1CDC38EA003D5936 /* Util.swift */,
+				2151FC741CFA9E2100EAFB6A /* Font.swift */,
 				21B1D2F01CDCFA84003D5936 /* MyExtention.swift */,
 				21665D5B1CF92FAA005210DD /* View */,
 				21DD967C1CD7F098008B5031 /* DataType */,
@@ -363,6 +366,7 @@
 				213ACCBF1C0A2B0400B54335 /* AppDelegate.swift in Sources */,
 				21F451EA1C0BB78500B5C911 /* Feed.swift in Sources */,
 				21011FE21CC5D536001AECCD /* InstagramLogin.swift in Sources */,
+				2151FC751CFA9E2100EAFB6A /* Font.swift in Sources */,
 				219F6F041C2766A40014ED51 /* Feed_Cell.swift in Sources */,
 				21352A681C7A5647001ED3C0 /* DataSource.swift in Sources */,
 				21F451E81C0BB69600B5C911 /* User.swift in Sources */,

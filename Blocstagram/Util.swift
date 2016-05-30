@@ -8,6 +8,9 @@
 
 import UIKit
 
+//var imageCache = [String: UIImage]()
+var imageCache = NSCache()
+
 class Utils {
     
     class func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
@@ -25,7 +28,6 @@ class Utils {
         let imageWidth = image.size.width
         let theRatio = imageHeight/imageWidth
         let finalHeight = viewWith * theRatio
-        //print("imageHeight = \(imageHeight)       imageWidth = \(imageWidth)   ")
         return finalHeight
     }
     
@@ -39,70 +41,55 @@ class Utils {
     }
     
     class func asyncLoadImage(imageUrl:String, imageView:UIImageView){
-        let downloadQueue = dispatch_queue_create("downloadingImages", nil)
-        dispatch_async(downloadQueue){
-            let data = NSData(contentsOfURL:NSURL(string: imageUrl)!)
-            if data != nil{
-                let imageData = data
-                dispatch_async(dispatch_get_main_queue(), {
+        if let image = imageCache.objectForKey(imageUrl) {
+            imageView.image = image as? UIImage
+        }else{
+            let downloadQueue = dispatch_queue_create("downloadingImages", nil)
+            dispatch_async(downloadQueue){
+                let data = NSData(contentsOfURL:NSURL(string: imageUrl)!)
+                if data != nil{
+                    let imageData = data
                     let image = UIImage(data: imageData!)!
-                    imageView.image = image
-                })
+                    imageCache.setObject(image, forKey: imageUrl)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        imageView.image = image
+                    })
+                }
             }
         }
+        
+    }
+    
+    class func concatenateCommentArray(commentArray:[Comment]) -> String {
+        let count = commentArray.count
+        var returnString = ""
+        for var i = 0; i < count; i++ {
+            let name = commentArray[i].from?.fullName as! String
+            let comment = commentArray[i].text as String
+            returnString = returnString + name + " " + comment + "\n\n"
+        }
+        return returnString
+    }
+    
+    class func commentAttribute(commentArray:[Comment]) -> NSMutableAttributedString {
+        let count = commentArray.count
+        let fullString = Utils.concatenateCommentArray(commentArray)
+        let commentAttribute = NSMutableAttributedString(string: fullString, attributes: [NSFontAttributeName: Fonts.lightFont])
+        var nameStartLocation = 0
+        var nameEndLocation = 0
+        var characterCount = 0
+        for var i = 0; i < count; i++ {
+            let name = commentArray[i].from?.fullName as! String
+            let nameCount = name.characters.count
+            let comment = commentArray[i].text as String
+            let commentCount = comment.characters.count + 1
+            nameEndLocation = nameStartLocation + nameCount
+            commentAttribute.addAttribute(NSForegroundColorAttributeName, value: UIColor.orangeColor(), range: NSRange(location:characterCount,length:nameCount))
+            //print("start= \(nameStartLocation)  end= \(nameEndLocation)    namecount=\(nameCount)   commentCount=\(commentCount)")
+            nameStartLocation = nameEndLocation + commentCount
+            characterCount += (nameCount + commentCount + 3)
+        }
+        return commentAttribute
     }
 }
 
-
-/*
-
-func getStringFromJSON(data:NSDictionary, key: String) -> String{
-if let info = data[key] as? String{
-return info
-}
-return ""
-}
-
-*/
-
-
-/*
-
-//Util Func
-func setImageHeightConstraint(cell:FeedCell, viewWith:CGFloat){
-let originalHeight = cell.mainImageView.image!.size.height
-let originalWidth = cell.mainImageView.image!.size.width
-let theRatio = originalHeight/originalWidth
-let imageHeight:CGFloat = viewWith * theRatio
-cell.myAddConstraint("V:[mainImageView(\(imageHeight))]", view: cell.mainImageView, viewsDictionary: ["mainImageView":cell.mainImageView])
-cell.myAddConstraint("H:|[mainImageView]|", view: cell.mainImageView, viewsDictionary: ["mainImageView":cell.mainImageView])
-}
-*/
-
-/*
-
-func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
-let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
-label.numberOfLines = 0
-label.lineBreakMode = NSLineBreakMode.ByWordWrapping
-label.font = font
-label.text = text
-label.sizeToFit()
-return label.frame.height
-}
-func findRadioHeightBigger(theImage:UIImage) -> CGFloat{
-let sizeOfImage = theImage.size
-let imageWidth = sizeOfImage.width
-let imageHeight = sizeOfImage.height
-let theRatio = imageHeight/imageWidth
-return theRatio
-}
-func findRadioWidthBigger(theImage:UIImage) -> CGFloat{
-let sizeOfImage = theImage.size
-let imageWidth = sizeOfImage.width
-let imageHeight = sizeOfImage.height
-let theRatio = imageWidth/imageHeight
-return theRatio
-}
-
-*/

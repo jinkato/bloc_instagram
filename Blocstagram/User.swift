@@ -21,21 +21,10 @@ class User: NSObject {
         self.idNumber = userDictionary["id"] as! String
         self.userName = userDictionary["username"] as! String
         self.fullName = userDictionary["full_name"] as! String
-        var profileURLString:NSString = userDictionary["profile_picture"] as! String
-        var profileURL = NSURL(string: profileURLString as String)
+        let profileURLString:NSString = userDictionary["profile_picture"] as! String
+        let profileURL = NSURL(string: profileURLString as String)
         if profileURL != nil{
             self.profilePictureURL = profileURL
         }
     }
 }
-
-
-
-/*
-{
-"username": "lutherpics",
-"profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_309451969_75sq_1372650775.jpg",
-"id": "309451969",
-"full_name": "Meshelly Luther"
-}
-*/
