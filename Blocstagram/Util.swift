@@ -8,7 +8,6 @@
 
 import UIKit
 
-//var imageCache = [String: UIImage]()
 var imageCache = NSCache()
 
 class Utils {
