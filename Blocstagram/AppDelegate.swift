@@ -12,25 +12,30 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    func gotoTableView(){
-        let ImagesTableVC:FeedViewController = FeedViewController()
-        self.window?.rootViewController = ImagesTableVC
-    }
+    let uinav = UINavigationController()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        // NSNotificationCenter
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoTableView", name: "gototable", object: nil)
         // Setup Init Screen
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        let uinav = UINavigationController()
-        let login = InstagramLogin()
-        uinav.viewControllers = [login]
+        //DataSource.sharedInstance.keychain.clear()
+        let accesstoken = DataSource.sharedInstance.keychain.get("access token") // Also calls DataSource init to trigger observer
+        if(accesstoken == nil){
+            let login = InstagramLogin()
+            uinav.viewControllers = [login]
+        }else{
+            gotoTableView()
+            DataSource.sharedInstance.getFeed()
+        }
         self.window!.rootViewController = uinav
         self.window?.makeKeyAndVisible()
-        _ = DataSource.sharedInstance.feeds//Because DataSource init does not get called if we don't do this
-        
-        // Setup observer for Token
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoTableView", name: "gototable", object: nil)
         return true
+    }
+    
+    func gotoTableView(){
+        let FeedVC:FeedViewController = FeedViewController()
+        uinav.viewControllers = [FeedVC]
     }
 
     func applicationWillResignActive(application: UIApplication) {

@@ -8,6 +8,13 @@
 // https://github.com/hpique/SwiftSingleton
 
 import UIKit
+import KeychainSwift
+
+/*
+let keychain = KeychainSwift()
+keychain.set("hello world", forKey: "my key")
+keychain.get("my key")
+*/
 
 class DataSource: NSObject {
     static let sharedInstance = DataSource()
@@ -15,22 +22,31 @@ class DataSource: NSObject {
     var isRefresing = false
     var isLoadingOlderItems = false
     var accessToken:String = ""
+    let keychain = KeychainSwift()
     
     private override init(){
         super.init()
         isRefresing = false
+        if let accessToken = keychain.get("access token") {
+            self.accessToken = accessToken
+        }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "registerAccessTokenFromNotification:", name: "registerAccessToken", object: nil)
     }
     
     func registerAccessTokenFromNotification(myNotification:NSNotification){
         self.accessToken = myNotification.object as! String
+        self.keychain.set(self.accessToken, forKey: "access token")
         // Notification Send to AppDelegate
         NSNotificationCenter.defaultCenter().postNotificationName("gototable", object: nil)
         // Json
-        getFeedJson(getAllCommentFeed)
+        getFeed()
     }
     
     // MARK: Json 
+    
+    func getFeed(){
+        getFeedJson(getAllCommentFeed)
+    }
     
     func getFeedJson(completion: (Void) -> Void){
         let priority = DISPATCH_QUEUE_PRIORITY_HIGH

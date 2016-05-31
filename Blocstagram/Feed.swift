@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Feed: NSObject {
+class Feed: NSObject, NSCoding {
     var idNumber : NSString = ""
     var mediaURL : NSString = ""
     var image : UIImage? = nil
@@ -19,11 +19,7 @@ class Feed: NSObject {
     
     init(mediaDictionary:NSDictionary) {
         super.init()
-        
-        // Id
         self.idNumber = mediaDictionary["id"] as! String
-        
-        //User
         self.user = User(userDictionary: mediaDictionary["user"] as! NSDictionary)
         
         // Image
@@ -40,25 +36,19 @@ class Feed: NSObject {
         }else{
             self.caption = ""
         }
+    }
+    //unstore
+    required init(coder aDecoder: NSCoder) {
+        idNumber = aDecoder.decodeObjectForKey("name") as! String
+       if let myImage = aDecoder.decodeObjectForKey("image") as? UIImage? {
+            self.image = myImage
+        }
         
-        
-        
-        // Comment
-        //let commentsArray = [Comment]()
-        //let tmpCommentDictionary = mediaDictionary["comments"] as! NSDictionary
-        //let tempCommentData = tmpCommentDictionary["data"] as! NSDictionary
-//        for commentDictionary in tempCommentData {
-//            var comment = Comment(commentDictionary: commentDictionary)
-//            commentsArray.append(comment)
-//            Comment *comment = [[Comment alloc] initWithDictionary:commentDictionary];
-//            [commentsArray addObject:comment];
-//        }
-        //self.comments = commentsArray
-        
-        
-        
-        
-        
+    }
+    //store
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(idNumber, forKey: "name")
+        aCoder.encodeObject(image, forKey: "image")
     }
 }
 
