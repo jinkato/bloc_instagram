@@ -23,6 +23,7 @@ class DataSource: NSObject {
     var isLoadingOlderItems = false
     var accessToken:String = ""
     let keychain = KeychainSwift()
+    var fullScreenImageUrl = ""
     
     private override init(){
         super.init()
@@ -42,7 +43,60 @@ class DataSource: NSObject {
         getFeed()
     }
     
-    // MARK: Json 
+//    func pathForFilename(filename:String) -> NSString{
+//        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+//        let documentsDirectory = paths.first
+//        let dataPath = "\(documentsDirectory)\(filename)"
+//        return dataPath
+//    }
+//    func getDocumentsDirectory() -> NSString {
+//        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+//        let documentsDirectory = paths[0]
+//        return documentsDirectory
+//    }
+    func archiveFeeds(){
+        if(feeds.count > 0){
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                let numberOfItemsToSave = min(self.feeds.count , 50)
+                let feedsToSave = Array( self.feeds[0 ..< numberOfItemsToSave] )
+                let feedsData = NSKeyedArchiver.archivedDataWithRootObject(feedsToSave)
+                do{
+                    let fileManager = NSFileManager.defaultManager()
+                    let documents = try fileManager.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false)
+                    //print("documents = \(documents)")
+                    let url = NSURL(string: "feed.bin", relativeToURL: documents)
+                    if let url = url {
+                        feedsData.writeToURL(url, atomically: true)
+                    }
+                }catch{
+                    print("error")
+                }
+            }
+        }
+    }
+    func unarchiveFeeds(){
+        if(feeds.count > 0){
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                
+                do{
+                    let fileManager = NSFileManager.defaultManager()
+                    let documents = try fileManager.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false)
+                    let url = NSURL(string: "feed.bin", relativeToURL: documents)
+                    if let url = url {
+                        let data = NSData(contentsOfURL: url)
+                        let unarchivedArray = NSKeyedUnarchiver.unarchiveObjectWithData(data!) as! NSArray
+                        print(unarchivedArray.count)
+                    }
+                }catch{
+                    print("error")
+                }
+            }
+        }
+    }
+    
+    // MARK: Json
     
     func getFeed(){
         getFeedJson(getAllCommentFeed)
@@ -61,6 +115,8 @@ class DataSource: NSObject {
                     do {
                         let instagramData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
                         DataSource.sharedInstance.feeds = self.convertFeedJsonToArray(instagramData)
+                        self.archiveFeeds()
+                        self.unarchiveFeeds()
                         completion()
                     }catch{
                         print("error")

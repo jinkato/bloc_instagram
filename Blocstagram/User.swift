@@ -8,7 +8,7 @@
 
 import UIKit
 
-class User: NSObject {
+class User: NSObject, NSCoding {
     
     var idNumber : NSString = ""
     var userName : NSString = ""
@@ -25,6 +25,26 @@ class User: NSObject {
         let profileURL = NSURL(string: profileURLString as String)
         if profileURL != nil{
             self.profilePictureURL = profileURL
+        }
+    }
+    //unstore
+    required init(coder aDecoder: NSCoder) {
+        idNumber = aDecoder.decodeObjectForKey("idNumber") as! String
+        userName = aDecoder.decodeObjectForKey("userName") as! String
+        fullName = aDecoder.decodeObjectForKey("fullName") as! String
+        profilePictureURL = aDecoder.decodeObjectForKey("profilePictureURL") as? NSURL
+        if let myImage = aDecoder.decodeObjectForKey("profilePicture") as? UIImage? {
+            self.profilePicture = myImage
+        }
+    }
+    //store
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(idNumber, forKey: "idNumber")
+        aCoder.encodeObject(userName, forKey: "userName")
+        aCoder.encodeObject(fullName, forKey: "fullName")
+        aCoder.encodeObject(profilePictureURL, forKey: "profilePictureURL")
+        if let myImage = profilePicture {
+            aCoder.encodeObject(myImage, forKey: "profilePicture")
         }
     }
 }

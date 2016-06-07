@@ -39,16 +39,22 @@ class Feed: NSObject, NSCoding {
     }
     //unstore
     required init(coder aDecoder: NSCoder) {
-        idNumber = aDecoder.decodeObjectForKey("name") as! String
-       if let myImage = aDecoder.decodeObjectForKey("image") as? UIImage? {
+        idNumber = aDecoder.decodeObjectForKey("idNumber") as! String
+        mediaURL = aDecoder.decodeObjectForKey("mediaURL") as! String
+        if let myImage = aDecoder.decodeObjectForKey("image") as? UIImage? {
             self.image = myImage
         }
+        caption = aDecoder.decodeObjectForKey("caption") as! String
         
     }
     //store
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(idNumber, forKey: "name")
-        aCoder.encodeObject(image, forKey: "image")
+        aCoder.encodeObject(idNumber, forKey: "idNumber")
+        aCoder.encodeObject(mediaURL, forKey: "mediaURL")
+        if let myImage = image {
+            aCoder.encodeObject(myImage, forKey: "image")
+        }
+        aCoder.encodeObject(caption, forKey: "caption")
     }
 }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedViewController: UITableViewController {
+class FeedViewController: UITableViewController, FeedCellDelegate {
 
     // MARK: - Variables
     var myRefreshControl: UIRefreshControl!
@@ -39,10 +39,19 @@ class FeedViewController: UITableViewController {
         cell.feed = DataSource.sharedInstance.feeds[indexPath.row]
         cell.commentArray = DataSource.sharedInstance.feeds[indexPath.row].comments
         // Image
-        cell.mainImageView.image = nil
-        let cellImage = DataSource.sharedInstance.feeds[indexPath.row].mediaURL as String
-        Utils.asyncLoadImage(cellImage, imageView: cell.mainImageView)
+        //cell.mainImageView.image = nil
+        //let cellImage = DataSource.sharedInstance.feeds[indexPath.row].mediaURL as String
+        //Utils.asyncLoadImage(cellImage, imageView: cell.mainImageView)
+        // Cell Delegate
+        if cell.cellDelegate == nil {
+            cell.cellDelegate = self
+        }
         return cell
+    }
+    
+    func imageTapped(cell: FeedCell) {
+        let nextVc:FullImage_vc = FullImage_vc()
+        self.navigationController?.pushViewController(nextVc, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -76,6 +85,11 @@ class FeedViewController: UITableViewController {
     
     func reloadTable(){
         self.tableView.reloadData()
+    }
+    
+    func share(){
+        let vc = UIActivityViewController(activityItems: ["share text"], applicationActivities: nil)
+        self.presentViewController(vc, animated: true, completion: nil)
     }
     
 }

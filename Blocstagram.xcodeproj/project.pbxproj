@@ -32,6 +32,7 @@
 		219F6F041C2766A40014ED51 /* Feed_Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F6F031C2766A40014ED51 /* Feed_Cell.swift */; settings = {ASSET_TAGS = (); }; };
 		21B1D2EF1CDC38EA003D5936 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B1D2EE1CDC38EA003D5936 /* Util.swift */; settings = {ASSET_TAGS = (); }; };
 		21B1D2F11CDCFA84003D5936 /* MyExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B1D2F01CDCFA84003D5936 /* MyExtention.swift */; settings = {ASSET_TAGS = (); }; };
+		21E7D7641D059ED200169C84 /* FullImage_vc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E7D7631D059ED200169C84 /* FullImage_vc.swift */; settings = {ASSET_TAGS = (); }; };
 		21F451E81C0BB69600B5C911 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F451E71C0BB69600B5C911 /* User.swift */; settings = {ASSET_TAGS = (); }; };
 		21F451EA1C0BB78500B5C911 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F451E91C0BB78500B5C911 /* Feed.swift */; settings = {ASSET_TAGS = (); }; };
 		6A388FF4A0F54D8B19064CBB /* Pods_Blocstagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B130184A155B0CFFE72CE659 /* Pods_Blocstagram.framework */; };
@@ -88,6 +89,7 @@
 		219F6F031C2766A40014ED51 /* Feed_Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed_Cell.swift; sourceTree = "<group>"; };
 		21B1D2EE1CDC38EA003D5936 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		21B1D2F01CDCFA84003D5936 /* MyExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyExtention.swift; sourceTree = "<group>"; };
+		21E7D7631D059ED200169C84 /* FullImage_vc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FullImage_vc.swift; path = View/FullImage_vc.swift; sourceTree = "<group>"; };
 		21F451E71C0BB69600B5C911 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		21F451E91C0BB78500B5C911 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		8D08AE42D82D7EA499C56E0E /* Pods-Blocstagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blocstagram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Blocstagram/Pods-Blocstagram.debug.xcconfig"; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				21011FE11CC5D536001AECCD /* InstagramLogin.swift */,
 				213ACD011C0A2BF800B54335 /* Feed_Vc.swift */,
 				219F6F031C2766A40014ED51 /* Feed_Cell.swift */,
+				21E7D7631D059ED200169C84 /* FullImage_vc.swift */,
 				21665D591CF92DA7005210DD /* BaseTableCell.swift */,
 			);
 			name = View;
@@ -497,6 +500,7 @@
 				213ACCBF1C0A2B0400B54335 /* AppDelegate.swift in Sources */,
 				21F451EA1C0BB78500B5C911 /* Feed.swift in Sources */,
 				21011FE21CC5D536001AECCD /* InstagramLogin.swift in Sources */,
+				21E7D7641D059ED200169C84 /* FullImage_vc.swift in Sources */,
 				2151FC751CFA9E2100EAFB6A /* Font.swift in Sources */,
 				219F6F041C2766A40014ED51 /* Feed_Cell.swift in Sources */,
 				21352A681C7A5647001ED3C0 /* DataSource.swift in Sources */,

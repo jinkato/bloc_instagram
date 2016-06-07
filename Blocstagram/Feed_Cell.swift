@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol FeedCellDelegate {
+    func imageTapped(cell: FeedCell)
+}
+
 class FeedCell: BaseTableCell {
+    
+    var cellDelegate: FeedCellDelegate?
     
     var feed:Feed?{
         didSet{
@@ -22,6 +28,9 @@ class FeedCell: BaseTableCell {
             usernameCaptionAttribute.addAttribute(NSKernAttributeName, value: 2, range: NSRange(location:0,length:fullNameCount))
             self.usernameAndCaptionLabel.text = userCaptionString
             self.usernameAndCaptionLabel.attributedText = usernameCaptionAttribute
+            mainImageView.image = nil
+            let cellImage = feed?.mediaURL as! String
+            Utils.asyncLoadImage(cellImage, imageView: mainImageView)
         }
     }
     var commentArray:[Comment]?{
@@ -67,6 +76,10 @@ class FeedCell: BaseTableCell {
         myAddConstraint("V:[mainImageView]-0-[usernameAndCaptionLabel]", view: usernameAndCaptionLabel, viewsDictionary: viewDict)
         myAddConstraint("H:|[commentLabel]|", view: commentLabel, viewsDictionary: viewDict)
         myAddConstraint("V:[usernameAndCaptionLabel]-0-[commentLabel]", view: commentLabel, viewsDictionary: viewDict)
+        
+        self.mainImageView.userInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTap:")
+        self.mainImageView.addGestureRecognizer(gestureRecognizer)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -75,6 +88,17 @@ class FeedCell: BaseTableCell {
     }
     
     // ------------------------------------------------------------------------------------------ //
+    
+    func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        
+        DataSource.sharedInstance.fullScreenImageUrl = (feed?.mediaURL)! as String
+        print( DataSource.sharedInstance.fullScreenImageUrl )
+        if self.editing == false {
+            cellDelegate?.imageTapped(self)
+        }
+        
+    }
+    
     
 }
 

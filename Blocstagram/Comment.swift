@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Comment: NSObject {
+class Comment: NSObject, NSCoding {
     var idNumber : NSString = ""
     var from : User?
     var text : NSString = ""
@@ -19,18 +19,17 @@ class Comment: NSObject {
         self.text = commentDictionary["text"] as! String
         self.from = User(userDictionary: commentDictionary["from"] as! NSDictionary)
     }
+    //unstore
+    required init(coder aDecoder: NSCoder) {
+        idNumber = aDecoder.decodeObjectForKey("idNumber") as! String
+        from = aDecoder.decodeObjectForKey("from") as? User
+        text = aDecoder.decodeObjectForKey("text") as! String
+    }
+    //store
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(idNumber, forKey: "idNumber")
+        aCoder.encodeObject(from, forKey: "from")
+        aCoder.encodeObject(text, forKey: "text")
+    }
+    
 }
-
-/*
-{
-    "created_time": "1401374997",
-    "text": "U know u got it",
-    "from": {
-        "username": "lutherpics",
-        "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_309451969_75sq_1372650775.jpg",
-        "id": "309451969",
-        "full_name": "Meshelly Luther"
-    },
-    "id": "731108930889847663"
-}
-*/
