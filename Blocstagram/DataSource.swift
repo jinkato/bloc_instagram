@@ -23,7 +23,7 @@ class DataSource: NSObject {
     var isLoadingOlderItems = false
     var accessToken:String = ""
     let keychain = KeychainSwift()
-    var fullScreenImage = UIImage()
+    var selectedFeed:Feed?
     
     private override init(){
         super.init()
@@ -78,7 +78,7 @@ class DataSource: NSObject {
                     if let url = url {
                         let data = NSData(contentsOfURL: url)
                         let unarchivedArray = NSKeyedUnarchiver.unarchiveObjectWithData(data!) as! NSArray
-                        //print(unarchivedArray.count)
+                        print(unarchivedArray.count)
                     }
                 }catch{
                     print("error")

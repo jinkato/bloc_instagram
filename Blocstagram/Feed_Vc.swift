@@ -45,20 +45,18 @@ class FeedViewController: UITableViewController, FeedCellDelegate {
         return cell
     }
     
+    // MARK: - Delegate Func -------------------------------------------
+    
     func imageTapped(cell: FeedCell) {
         let nextVc:FullImage_vc = FullImage_vc()
         nextVc.modalPresentationStyle = .OverCurrentContext
         presentViewController(nextVc, animated: true, completion: nil)
     }
-    func imageLongPressed(cell: FeedCell) {
-        let image = cell.mainImageView.image
-        let caption = cell.usernameAndCaptionLabel.text
-        let itemsToShare = NSMutableArray()
-        itemsToShare.addObject(caption!)
-        itemsToShare.addObject(image!)
-        let activityVC = UIActivityViewController(activityItems: itemsToShare as [AnyObject], applicationActivities: nil)
-        self.presentViewController(activityVC, animated: true, completion: nil)
+    func imageLongPressed() {
+        Utils.presentShareView(self as UIViewController)
     }
+    
+    // MARK: - Table Func -------------------------------------------
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let tableWidth:CGFloat = tableView.frame.width

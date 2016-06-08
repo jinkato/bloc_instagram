@@ -10,7 +10,7 @@ import UIKit
 
 protocol FeedCellDelegate {
     func imageTapped(cell: FeedCell)
-    func imageLongPressed(cell: FeedCell)
+    func imageLongPressed()
 }
 
 class FeedCell: BaseTableCell {
@@ -89,17 +89,21 @@ class FeedCell: BaseTableCell {
     
     func longPressFired(gestureRecognizer: UIGestureRecognizer) {
         if self.editing == false {
+            setSelectedFeedValue()
             if( gestureRecognizer.state == UIGestureRecognizerState.Began ){
-                cellDelegate?.imageLongPressed(self)
+                cellDelegate?.imageLongPressed()
             }
         }
     }
-    
     func tapFired(gestureRecognizer: UIGestureRecognizer) {
-        DataSource.sharedInstance.fullScreenImage = self.mainImageView.image!
+        setSelectedFeedValue()
         if self.editing == false {
             cellDelegate?.imageTapped(self)
         }
+    }
+    func setSelectedFeedValue(){
+        DataSource.sharedInstance.selectedFeed = feed
+        DataSource.sharedInstance.selectedFeed?.image = self.mainImageView.image!
     }
 }
 

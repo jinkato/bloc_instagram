@@ -12,6 +12,16 @@ var imageCache = NSCache()
 
 class Utils {
     
+    class func presentShareView(view:UIViewController){
+        let image = DataSource.sharedInstance.selectedFeed?.image
+        let caption = DataSource.sharedInstance.selectedFeed?.caption
+        let itemsToShare = NSMutableArray()
+        itemsToShare.addObject(caption!)
+        itemsToShare.addObject(image!)
+        let activityVC = UIActivityViewController(activityItems: itemsToShare as [AnyObject], applicationActivities: nil)
+        view.presentViewController(activityVC, animated: true, completion: nil)
+    }
+    
     class func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
         let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
         label.numberOfLines = 0
@@ -39,6 +49,8 @@ class Utils {
             dispatch_get_main_queue(), closure)
     }
     
+    // Network ----------------------
+    
     class func asyncLoadImage(imageUrl:String, imageView:UIImageView){
         if let image = imageCache.objectForKey(imageUrl) {
             imageView.image = image as? UIImage
@@ -58,6 +70,8 @@ class Utils {
         }
         
     }
+    
+    // Comment stuff -----------------------
     
     class func concatenateCommentArray(commentArray:[Comment]) -> String {
         let count = commentArray.count
