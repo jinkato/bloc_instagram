@@ -23,7 +23,7 @@ class DataSource: NSObject {
     var isLoadingOlderItems = false
     var accessToken:String = ""
     let keychain = KeychainSwift()
-//    var selectedFeed:Feed?
+    var selectedFeed:Feed?
     
     private override init(){
         super.init()

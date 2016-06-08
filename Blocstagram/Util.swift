@@ -12,15 +12,15 @@ var imageCache = NSCache()
 
 class Utils {
     
-//    class func presentShareView(view:UIViewController){
-//        let image = DataSource.sharedInstance.selectedFeed?.image
-//        let caption = DataSource.sharedInstance.selectedFeed?.caption
-//        let itemsToShare = NSMutableArray()
-//        itemsToShare.addObject(caption!)
-//        itemsToShare.addObject(image!)
-//        let activityVC = UIActivityViewController(activityItems: itemsToShare as [AnyObject], applicationActivities: nil)
-//        view.presentViewController(activityVC, animated: true, completion: nil)
-//    }
+    class func presentShareView(view:UIViewController){
+        let image = DataSource.sharedInstance.selectedFeed?.image
+        let caption = DataSource.sharedInstance.selectedFeed?.caption
+        let itemsToShare = NSMutableArray()
+        itemsToShare.addObject(caption!)
+        itemsToShare.addObject(image!)
+        let activityVC = UIActivityViewController(activityItems: itemsToShare as [AnyObject], applicationActivities: nil)
+        view.presentViewController(activityVC, animated: true, completion: nil)
+    }
     
     class func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
         let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
