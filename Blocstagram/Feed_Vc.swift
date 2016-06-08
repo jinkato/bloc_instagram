@@ -38,10 +38,6 @@ class FeedViewController: UITableViewController, FeedCellDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! FeedCell
         cell.feed = DataSource.sharedInstance.feeds[indexPath.row]
         cell.commentArray = DataSource.sharedInstance.feeds[indexPath.row].comments
-        // Image
-        //cell.mainImageView.image = nil
-        //let cellImage = DataSource.sharedInstance.feeds[indexPath.row].mediaURL as String
-        //Utils.asyncLoadImage(cellImage, imageView: cell.mainImageView)
         // Cell Delegate
         if cell.cellDelegate == nil {
             cell.cellDelegate = self
@@ -51,7 +47,17 @@ class FeedViewController: UITableViewController, FeedCellDelegate {
     
     func imageTapped(cell: FeedCell) {
         let nextVc:FullImage_vc = FullImage_vc()
-        self.navigationController?.pushViewController(nextVc, animated: true)
+        nextVc.modalPresentationStyle = .OverCurrentContext
+        presentViewController(nextVc, animated: true, completion: nil)
+    }
+    func imageLongPressed(cell: FeedCell) {
+        let image = cell.mainImageView.image
+        let caption = cell.usernameAndCaptionLabel.text
+        let itemsToShare = NSMutableArray()
+        itemsToShare.addObject(caption!)
+        itemsToShare.addObject(image!)
+        let activityVC = UIActivityViewController(activityItems: itemsToShare as [AnyObject], applicationActivities: nil)
+        self.presentViewController(activityVC, animated: true, completion: nil)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -71,7 +77,6 @@ class FeedViewController: UITableViewController, FeedCellDelegate {
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        //If we reach the end of the table.
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
             //RandomData.sharedInstance.requestOldItems()
         }

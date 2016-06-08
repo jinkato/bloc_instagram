@@ -23,7 +23,7 @@ class DataSource: NSObject {
     var isLoadingOlderItems = false
     var accessToken:String = ""
     let keychain = KeychainSwift()
-    var fullScreenImageUrl = ""
+    var fullScreenImage = UIImage()
     
     private override init(){
         super.init()
@@ -43,17 +43,8 @@ class DataSource: NSObject {
         getFeed()
     }
     
-//    func pathForFilename(filename:String) -> NSString{
-//        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-//        let documentsDirectory = paths.first
-//        let dataPath = "\(documentsDirectory)\(filename)"
-//        return dataPath
-//    }
-//    func getDocumentsDirectory() -> NSString {
-//        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-//        let documentsDirectory = paths[0]
-//        return documentsDirectory
-//    }
+    // Archive
+    
     func archiveFeeds(){
         if(feeds.count > 0){
             let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -87,7 +78,7 @@ class DataSource: NSObject {
                     if let url = url {
                         let data = NSData(contentsOfURL: url)
                         let unarchivedArray = NSKeyedUnarchiver.unarchiveObjectWithData(data!) as! NSArray
-                        print(unarchivedArray.count)
+                        //print(unarchivedArray.count)
                     }
                 }catch{
                     print("error")

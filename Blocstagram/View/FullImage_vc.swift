@@ -16,19 +16,50 @@ class FullImage_vc:UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.blackColor()
-        let image = UIImage(named: "book.png")
+        let image = DataSource.sharedInstance.fullScreenImage
         imageView = UIImageView(image: image)
         scrollview = UIScrollView(frame: view.bounds)
-        //scrollview.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        //scrollview.backgroundColor = UIColor.blueColor()
         scrollview.contentSize = imageView.bounds.size
         scrollview.addSubview(imageView)
         view.addSubview(scrollview)
-        //scrollview.contentOffset = CGPoint(x: 100, y: 100)
         scrollview.delegate = self
         setZoomParametersForSize(scrollview.bounds.size)
         scrollview.zoomScale = scrollview.minimumZoomScale
         recenterImage()
+        // Guestreu
+        imageView.userInteractionEnabled = true
+        let singleTap = UITapGestureRecognizer(target: self, action: "singleTap:")
+        singleTap.numberOfTapsRequired = 1
+        imageView.addGestureRecognizer(singleTap)
+        let doubleTap = UITapGestureRecognizer(target: self, action: "doubleTapped:")
+        doubleTap.numberOfTapsRequired = 2
+        imageView.addGestureRecognizer(doubleTap)
+        singleTap.requireGestureRecognizerToFail(doubleTap)
+    }
+    
+    func singleTap(gestureRecognizer: UIGestureRecognizer) {
+        self.dismissViewControllerAnimated(true, completion: {});
+    }
+    func doubleTapped(gestureRecognizer: UIGestureRecognizer) {
+        if scrollview.zoomScale == scrollview.minimumZoomScale {
+            let scrollViewSize = scrollview.bounds.size
+            let locationPoint = gestureRecognizer.locationInView(self.imageView)
+            let width = scrollViewSize.width / self.scrollview.maximumZoomScale;
+            let height = scrollViewSize.height / self.scrollview.maximumZoomScale;
+            let x = locationPoint.x - (width / 2);
+            let y = locationPoint.y - (height / 2);
+            let rect = CGRectMake(x, y, width, height)
+            scrollview.zoomToRect(rect, animated: true)
+        }else{
+            let scrollViewSize = scrollview.bounds.size
+            let locationPoint = gestureRecognizer.locationInView(self.imageView)
+            let width = scrollViewSize.width / self.scrollview.minimumZoomScale;
+            let height = scrollViewSize.height / self.scrollview.minimumZoomScale;
+            let x = locationPoint.x - (width / 2);
+            let y = locationPoint.y - (height / 2);
+            let rect = CGRectMake(x, y, width, height)
+            scrollview.zoomToRect(rect, animated: true)
+        }
     }
     
     func setZoomParametersForSize(scrollViewSize: CGSize){

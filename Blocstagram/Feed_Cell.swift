@@ -10,6 +10,7 @@ import UIKit
 
 protocol FeedCellDelegate {
     func imageTapped(cell: FeedCell)
+    func imageLongPressed(cell: FeedCell)
 }
 
 class FeedCell: BaseTableCell {
@@ -78,28 +79,28 @@ class FeedCell: BaseTableCell {
         myAddConstraint("V:[usernameAndCaptionLabel]-0-[commentLabel]", view: commentLabel, viewsDictionary: viewDict)
         
         self.mainImageView.userInteractionEnabled = true
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTap:")
-        self.mainImageView.addGestureRecognizer(gestureRecognizer)
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
+        let tap = UITapGestureRecognizer(target: self, action: "tapFired:")
+        self.mainImageView.addGestureRecognizer(tap)
+        let longPress = UILongPressGestureRecognizer(target: self, action: "longPressFired:")
+        self.mainImageView.addGestureRecognizer(longPress)
     }
     
     // ------------------------------------------------------------------------------------------ //
     
-    func handleTap(gestureRecognizer: UIGestureRecognizer) {
-        
-        DataSource.sharedInstance.fullScreenImageUrl = (feed?.mediaURL)! as String
-        print( DataSource.sharedInstance.fullScreenImageUrl )
+    func longPressFired(gestureRecognizer: UIGestureRecognizer) {
+        if self.editing == false {
+            if( gestureRecognizer.state == UIGestureRecognizerState.Began ){
+                cellDelegate?.imageLongPressed(self)
+            }
+        }
+    }
+    
+    func tapFired(gestureRecognizer: UIGestureRecognizer) {
+        DataSource.sharedInstance.fullScreenImage = self.mainImageView.image!
         if self.editing == false {
             cellDelegate?.imageTapped(self)
         }
-        
     }
-    
-    
 }
 
 
