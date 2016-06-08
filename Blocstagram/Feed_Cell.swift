@@ -89,22 +89,22 @@ class FeedCell: BaseTableCell {
     
     func longPressFired(gestureRecognizer: UIGestureRecognizer) {
         if self.editing == false {
-            setSelectedFeedValue()
+//            setSelectedFeedValue()
             if( gestureRecognizer.state == UIGestureRecognizerState.Began ){
                 cellDelegate?.imageLongPressed()
             }
         }
     }
     func tapFired(gestureRecognizer: UIGestureRecognizer) {
-        setSelectedFeedValue()
+//        setSelectedFeedValue()
         if self.editing == false {
             cellDelegate?.imageTapped(self)
         }
     }
-    func setSelectedFeedValue(){
-        DataSource.sharedInstance.selectedFeed = feed
-        DataSource.sharedInstance.selectedFeed?.image = self.mainImageView.image!
-    }
+//    func setSelectedFeedValue(){
+//        DataSource.sharedInstance.selectedFeed = feed
+//        DataSource.sharedInstance.selectedFeed?.image = self.mainImageView.image!
+//    }
 }
 
 

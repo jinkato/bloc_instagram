@@ -13,12 +13,12 @@ class FullImage_vc:UIViewController, UIScrollViewDelegate {
     var imageView = UIImageView()
     var scrollview = UIScrollView()
     var currentScale:CGFloat?
-    var shareButton:UIButton = {
-       let button = UIButton()
-        button.setTitle("Share", forState: UIControlState.Normal)
-        button.backgroundColor = UIColor.blueColor()
-        return button
-    }()
+//    var shareButton:UIButton = {
+//       let button = UIButton()
+//        button.setTitle("Share", forState: UIControlState.Normal)
+//        button.backgroundColor = UIColor.blueColor()
+//        return button
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,10 +35,10 @@ class FullImage_vc:UIViewController, UIScrollViewDelegate {
         scrollview.zoomScale = scrollview.minimumZoomScale
         recenterImage()
         // UI
-        self.view.addSubview(shareButton)
-        self.view.myAddConstraint("V:|-20-[shareButton(50)]", view: shareButton, viewsDictionary: ["shareButton":shareButton])
-        self.view.myAddConstraint("H:[shareButton(100)]|", view: shareButton, viewsDictionary: ["shareButton":shareButton])
-        shareButton.addTarget(self, action: "sharePressed", forControlEvents: UIControlEvents.TouchUpInside)
+//        self.view.addSubview(shareButton)
+//        self.view.myAddConstraint("V:|-20-[shareButton(50)]", view: shareButton, viewsDictionary: ["shareButton":shareButton])
+//        self.view.myAddConstraint("H:[shareButton(100)]|", view: shareButton, viewsDictionary: ["shareButton":shareButton])
+//        shareButton.addTarget(self, action: "sharePressed", forControlEvents: UIControlEvents.TouchUpInside)
         // Guestreu
         imageView.userInteractionEnabled = true
         let singleTap = UITapGestureRecognizer(target: self, action: "singleTap:")
@@ -49,9 +49,9 @@ class FullImage_vc:UIViewController, UIScrollViewDelegate {
         imageView.addGestureRecognizer(doubleTap)
         singleTap.requireGestureRecognizerToFail(doubleTap)
     }
-    func sharePressed(){
-        Utils.presentShareView(self as UIViewController)
-    }
+//    func sharePressed(){
+//        Utils.presentShareView(self as UIViewController)
+//    }
     func singleTap(gestureRecognizer: UIGestureRecognizer) {
         self.dismissViewControllerAnimated(true, completion: {});
     }

@@ -53,7 +53,7 @@ class FeedViewController: UITableViewController, FeedCellDelegate {
         presentViewController(nextVc, animated: true, completion: nil)
     }
     func imageLongPressed() {
-        Utils.presentShareView(self as UIViewController)
+//        Utils.presentShareView(self as UIViewController)
     }
     
     // MARK: - Table Func -------------------------------------------
