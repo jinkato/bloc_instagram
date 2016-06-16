@@ -5,6 +5,7 @@ use_frameworks!
 target 'Blocstagram' do
 
 pod 'KeychainSwift'
+pod 'Alamofire', '~> 3.1.2'
 
 end
 

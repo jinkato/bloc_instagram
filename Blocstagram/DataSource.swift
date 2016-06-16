@@ -9,6 +9,7 @@
 
 import UIKit
 import KeychainSwift
+import Alamofire
 
 /*
 let keychain = KeychainSwift()
@@ -94,27 +95,21 @@ class DataSource: NSObject {
     }
     
     func getFeedJson(completion: (Void) -> Void){
-        let priority = DISPATCH_QUEUE_PRIORITY_HIGH
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            let urlString = "https://api.instagram.com/v1/users/self/media/recent/?access_token=\(self.accessToken)"
-            let url:NSURL = NSURL(string: urlString)!
-            let session = NSURLSession.sharedSession()
-            let task = session.dataTaskWithURL(url){(data, response, error) -> Void in
-                if error != nil{
-                    print("error = \(error?.localizedDescription) url = \(urlString) data = \(data)")
-                }else{
-                    do {
-                        let instagramData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
-                        DataSource.sharedInstance.feeds = self.convertFeedJsonToArray(instagramData)
-                        self.archiveFeeds()
-                        self.unarchiveFeeds()
-                        completion()
-                    }catch{
-                        print("error")
-                    }
+        let urlString = "https://api.instagram.com/v1/users/self/media/recent/?access_token=\(self.accessToken)"
+        Alamofire.request(.GET, urlString).validate().responseJSON { response in
+            switch response.result {
+            case .Success:
+                if let data = response.result.value {
+                    let instagramData = data as! NSDictionary
+                    //print(instagramData)
+                    DataSource.sharedInstance.feeds = self.convertFeedJsonToArray(instagramData)
+                    self.archiveFeeds()
+                    self.unarchiveFeeds()
                 }
+                completion()
+            case .Failure(let error):
+                print(error)
             }
-            task.resume()
         }
     }
     
@@ -127,26 +122,20 @@ class DataSource: NSObject {
     }
     
     func getCommentJson(mediaId:String,location:Int){
-        let priority = DISPATCH_QUEUE_PRIORITY_HIGH
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            let urlString = "https://api.instagram.com/v1/media/\(mediaId)/comments?access_token=\(self.accessToken)"
-            let url:NSURL = NSURL(string: urlString)!
-            let session = NSURLSession.sharedSession()
-            let task = session.dataTaskWithURL(url){(data, response, error) -> Void in
-                if error != nil{
-                    print("error = \(error?.localizedDescription) url = \(urlString) data = \(data)")
-                }else{
-                    do {
-                        let commentDict = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
-                        DataSource.sharedInstance.feeds[location].comments = self.convertCommentToArray(commentDict)
-                        DataSource.sharedInstance.feeds[location].commentsDidLoad = true
-                        self.checkIfAllCommentsLoaded()
-                    }catch{
-                        print("error")
-                    }
+        let urlString = "https://api.instagram.com/v1/media/\(mediaId)/comments?access_token=\(self.accessToken)"
+        Alamofire.request(.GET, urlString).validate().responseJSON { response in
+            switch response.result {
+            case .Success:
+                if let data = response.result.value {
+                    let commentDict = data as! NSDictionary
+                    print(commentDict)
+                    DataSource.sharedInstance.feeds[location].comments = self.convertCommentToArray(commentDict)
+                    DataSource.sharedInstance.feeds[location].commentsDidLoad = true
+                    self.checkIfAllCommentsLoaded()
                 }
+            case .Failure(let error):
+                print(error)
             }
-            task.resume()
         }
     }
     
@@ -179,8 +168,7 @@ class DataSource: NSObject {
     
     func convertCommentToArray(instagramData:NSDictionary) -> [Comment]{
         let tempDictionary = instagramData["data"]
-        let tempArray = tempDictionary! as! NSMutableArray
-        
+        let tempArray = tempDictionary! as! NSArray
         var returnArray:[Comment] = []
         for item in tempArray{
             let tempItem = Comment(commentDictionary: item as! NSDictionary)
