@@ -128,7 +128,7 @@ class DataSource: NSObject {
             case .Success:
                 if let data = response.result.value {
                     let commentDict = data as! NSDictionary
-                    print(commentDict)
+                    //print(commentDict)
                     DataSource.sharedInstance.feeds[location].comments = self.convertCommentToArray(commentDict)
                     DataSource.sharedInstance.feeds[location].commentsDidLoad = true
                     self.checkIfAllCommentsLoaded()

@@ -11,6 +11,7 @@ import UIKit
 protocol FeedCellDelegate {
     func imageTapped(cell: FeedCell)
     func imageLongPressed()
+    func imageDoubleTapped(cell: FeedCell)
 }
 
 class FeedCell: BaseTableCell {
@@ -31,7 +32,7 @@ class FeedCell: BaseTableCell {
             self.usernameAndCaptionLabel.attributedText = usernameCaptionAttribute
             mainImageView.image = nil
             let cellImage = feed?.mediaURL as! String
-            Utils.asyncLoadImage(cellImage, imageView: mainImageView)
+            Utils.asyncLoadImageWithAlamofire(cellImage, imageView: mainImageView)
         }
     }
     var commentArray:[Comment]?{
@@ -83,6 +84,10 @@ class FeedCell: BaseTableCell {
         self.mainImageView.addGestureRecognizer(tap)
         let longPress = UILongPressGestureRecognizer(target: self, action: "longPressFired:")
         self.mainImageView.addGestureRecognizer(longPress)
+        let doubleTap = UITapGestureRecognizer(target: self, action: "doubleFired:")
+        doubleTap.numberOfTapsRequired = 2
+        self.mainImageView.addGestureRecognizer(doubleTap)
+        tap.requireGestureRecognizerToFail(doubleTap)
     }
     
     // ------------------------------------------------------------------------------------------ //
@@ -101,16 +106,16 @@ class FeedCell: BaseTableCell {
             cellDelegate?.imageTapped(self)
         }
     }
+    func doubleFired(gestureRecognizer: UIGestureRecognizer) {
+        if self.editing == false {
+            cellDelegate?.imageDoubleTapped(self)
+        }
+    }
     func setSelectedFeedValue(){
         DataSource.sharedInstance.selectedFeed = feed
         DataSource.sharedInstance.selectedFeed?.image = self.mainImageView.image!
     }
 }
-
-
-
-
-
 
 
 

@@ -55,6 +55,10 @@ class FeedViewController: UITableViewController, FeedCellDelegate {
     func imageLongPressed() {
         Utils.presentShareView(self as UIViewController)
     }
+    func imageDoubleTapped(cell: FeedCell) {
+        let cellImage = cell.feed?.mediaURL as! String
+        Utils.asyncLoadImageWithAlamofire(cellImage, imageView: cell.mainImageView)
+    }
     
     // MARK: - Table Func -------------------------------------------
     

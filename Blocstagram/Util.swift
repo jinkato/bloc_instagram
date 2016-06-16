@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 var imageCache = NSCache()
 
@@ -69,6 +70,11 @@ class Utils {
             }
         }
         
+    }
+    class func asyncLoadImageWithAlamofire(imageUrl:String, imageView:UIImageView){
+        Alamofire.request(.GET, imageUrl).response { (request, response, data, error) in
+            imageView.image = UIImage(data: data!, scale:1)
+        }
     }
     
     // Comment stuff -----------------------
